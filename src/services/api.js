@@ -1,8 +1,6 @@
-/**
- * Production API Client for Toby's Auto Mechanic Admin & Backend
- */
+import { salonStore } from './salonStore';
 
-const TOKEN_STORAGE_KEY = 'toby_admin_token';
+const TOKEN_STORAGE_KEY = 'nailz_admin_token';
 
 export function getStoredToken() {
   try {
@@ -24,226 +22,83 @@ export function setStoredToken(token) {
   }
 }
 
-const API_BASE = (import.meta.env.VITE_API_URL || '/api').replace(/\/$/, '');
-
-function buildUrl(endpoint) {
-  const path = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
-  if (API_BASE.startsWith('http')) {
-    const cleanPath = path.startsWith('/api') ? path.slice(4) : path;
-    return `${API_BASE}${cleanPath}`;
-  }
-  return path.startsWith('/api') ? path : `/api${path}`;
-}
-
-async function request(endpoint, options = {}) {
-  const token = getStoredToken();
-  const headers = {
-    'Content-Type': 'application/json',
-    ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    ...options.headers
-  };
-
-  const url = buildUrl(endpoint);
-
-  const res = await fetch(url, {
-    ...options,
-    headers
-  });
-
-  const data = await res.json().catch(() => ({}));
-
-  if (!res.ok) {
-    const error = new Error(data.error || `HTTP ${res.status} request failed`);
-    error.status = res.status;
-    error.data = data;
-    throw error;
-  }
-
-  return data;
-}
-
-// ------------------------------------------------------------------
-// Auth APIs
-// ------------------------------------------------------------------
-const VALID_DEMO_PASSWORDS = [
-  'toby2024',
-  'admin2024',
-  import.meta.env.VITE_ADMIN_PASSWORD
-].filter(Boolean);
-
 export const authApi = {
   async login(password) {
     const trimmed = (password || '').trim();
+    const valid = ['nail2025', 'admin2025', 'jenna2025', import.meta.env.VITE_ADMIN_PASSWORD].filter(Boolean);
 
-    try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 4000);
-      
-      const data = await request('/api/auth/login', {
-        method: 'POST',
-        body: JSON.stringify({ password: trimmed }),
-        signal: controller.signal
-      });
-      clearTimeout(timeoutId);
-
-      if (data && data.token) {
-        setStoredToken(data.token);
-      }
-      return data;
-    } catch (err) {
-      if (VALID_DEMO_PASSWORDS.includes(trimmed)) {
-        const demoToken = `demo_token_${Date.now()}`;
-        setStoredToken(demoToken);
-        return {
-          success: true,
-          token: demoToken,
-          user: {
-            name: 'Executive Administrator',
-            shop: 'Client Management Portal'
-          }
-        };
-      }
-      throw err;
+    if (valid.includes(trimmed)) {
+      const demoToken = `nailz_token_${Date.now()}`;
+      setStoredToken(demoToken);
+      return {
+        authenticated: true,
+        success: true,
+        token: demoToken,
+        user: {
+          name: 'Jenna Soule',
+          shop: 'Nailz by Jenna LLC',
+          role: 'Master Nail Artist & Owner'
+        }
+      };
     }
+    throw new Error('Invalid salon access key');
   },
 
   async verify() {
     const token = getStoredToken();
     if (!token) return { authenticated: false };
-    if (token.startsWith('demo_')) {
-      return { 
-        authenticated: true, 
-        user: { 
-          name: 'Executive Administrator', 
-          shop: 'Client Management Portal' 
-        } 
-      };
-    }
-    try {
-      return await request('/api/auth/me', { method: 'GET' });
-    } catch {
-      return { 
-        authenticated: true, 
-        user: { 
-          name: 'Executive Administrator', 
-          shop: 'Client Management Portal' 
-        } 
-      };
-    }
+    return {
+      authenticated: true,
+      user: {
+        name: 'Jenna Soule',
+        shop: 'Nailz by Jenna LLC',
+        role: 'Master Nail Artist & Owner'
+      }
+    };
   },
 
   async logout() {
-    try {
-      await request('/api/auth/logout', { method: 'POST' });
-    } catch {
-      // Ignore network errors on logout
-    } finally {
-      setStoredToken(null);
-    }
-  },
-
-  async changePassword(oldPassword, newPassword) {
-    return request('/api/auth/change-password', {
-      method: 'POST',
-      body: JSON.stringify({ oldPassword, newPassword })
-    });
+    setStoredToken(null);
+    return { success: true };
   }
 };
 
-// ------------------------------------------------------------------
-// Quotes APIs
-// ------------------------------------------------------------------
 export const quotesApi = {
   async getStats() {
-    return request('/api/quotes/stats', { method: 'GET' });
+    return salonStore.getStats();
   },
 
   async getQuotes({ status = 'all', search = '', limit = 100, offset = 0 } = {}) {
-    const params = new URLSearchParams();
-    if (status && status !== 'all') params.set('status', status);
-    if (search) params.set('search', search);
-    params.set('limit', limit);
-    params.set('offset', offset);
-
-    return request(`/api/quotes?${params.toString()}`, { method: 'GET' });
+    const orders = salonStore.getOrders({ status, search });
+    return {
+      quotes: orders,
+      total: orders.length
+    };
   },
 
   async getQuote(id) {
-    return request(`/api/quotes/${encodeURIComponent(id)}`, { method: 'GET' });
+    return salonStore.getOrder(id);
   },
 
   async updateStatus(id, status) {
-    return request(`/api/quotes/${encodeURIComponent(id)}/status`, {
-      method: 'PATCH',
-      body: JSON.stringify({ status })
-    });
+    return salonStore.updateOrderStatus(id, status);
   },
 
-  async sendQuote(id, quoteData) {
-    return request(`/api/quotes/${encodeURIComponent(id)}/send-quote`, {
-      method: 'POST',
-      body: JSON.stringify(quoteData)
-    });
+  async updateQuote(id, patch) {
+    return salonStore.updateOrder(id, patch);
   },
 
   async deleteQuote(id) {
-    return request(`/api/quotes/${encodeURIComponent(id)}`, {
-      method: 'DELETE'
-    });
+    salonStore.deleteOrder(id);
+    return { success: true };
   },
 
-  async submitPublicQuote(quoteData) {
-    return request('/api/quotes', {
-      method: 'POST',
-      body: JSON.stringify(quoteData)
-    });
+  async submitPublicQuote(orderData) {
+    const order = salonStore.createOrder(orderData);
+    return { success: true, order, id: order.id };
   },
 
-  async getInbox({ status = 'all', search = '' } = {}) {
-    const params = new URLSearchParams();
-    if (status && status !== 'all') params.set('status', status);
-    if (search) params.set('search', search);
-    return request(`/api/inbox?${params.toString()}`, { method: 'GET' });
-  },
-
-  async getMessages(quoteId) {
-    return request(`/api/quotes/${encodeURIComponent(quoteId)}/messages`, { method: 'GET' });
-  },
-
-  async sendMessage(quoteId, { message, quotePrice = null }) {
-    return request(`/api/quotes/${encodeURIComponent(quoteId)}/messages`, {
-      method: 'POST',
-      body: JSON.stringify({ message, quotePrice })
-    });
-  }
-};
-
-// ------------------------------------------------------------------
-// Settings & Automations APIs
-// ------------------------------------------------------------------
-export const settingsApi = {
-  async getSettings() {
-    return request('/api/settings', { method: 'GET' });
-  },
-
-  async saveSettings(settings) {
-    return request('/api/settings', {
-      method: 'PUT',
-      body: JSON.stringify(settings)
-    });
-  },
-
-  async testTelegram(botToken, chatId) {
-    return request('/api/settings/test-telegram', {
-      method: 'POST',
-      body: JSON.stringify({ botToken, chatId })
-    });
-  },
-
-  async testEmail(payload) {
-    return request('/api/settings/test-email', {
-      method: 'POST',
-      body: JSON.stringify(payload)
-    });
+  async getInbox() {
+    return salonStore.getInbox();
   }
 };

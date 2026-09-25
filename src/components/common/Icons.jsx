@@ -64,6 +64,13 @@ export const ArrowLeft = ({ className = "w-5 h-5", ...props }) => (
   </svg>
 );
 
+export const ArrowUpRight = ({ className = "w-5 h-5", ...props }) => (
+  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <line x1="7" y1="17" x2="17" y2="7" />
+    <polyline points="7 7 17 7 17 17" />
+  </svg>
+);
+
 export const ChevronRight = ({ className = "w-5 h-5", ...props }) => (
   <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
     <polyline points="9 18 15 12 9 6" />
@@ -139,6 +146,63 @@ export const Sparkles = ({ className = "w-5 h-5", ...props }) => (
 export const Heart = ({ className = "w-5 h-5", filled = false, ...props }) => (
   <svg className={className} fill={filled ? "currentColor" : "none"} viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
     <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+  </svg>
+);
+
+export const Gem = ({ className = "w-5 h-5", ...props }) => (
+  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M6 3h12l4 6-10 12L2 9l4-6z" />
+    <path d="M2 9h20" />
+    <path d="m10 3 2 6 2-6" />
+    <path d="m7 9 5 12 5-12" />
+  </svg>
+);
+
+export const Scissors = ({ className = "w-5 h-5", ...props }) => (
+  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <circle cx="6" cy="6" r="3" />
+    <circle cx="6" cy="18" r="3" />
+    <line x1="20" y1="4" x2="8.12" y2="15.88" />
+    <line x1="14.47" y1="14.48" x2="20" y2="20" />
+    <line x1="8.12" y1="8.12" x2="12" y2="12" />
+  </svg>
+);
+
+export const Layers = ({ className = "w-5 h-5", ...props }) => (
+  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <polygon points="12 2 2 7 12 12 22 7 12 2" />
+    <polyline points="2 17 12 22 22 17" />
+    <polyline points="2 12 12 17 22 12" />
+  </svg>
+);
+
+export const Camera = ({ className = "w-5 h-5", ...props }) => (
+  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+    <circle cx="12" cy="13" r="4" />
+  </svg>
+);
+
+export const Image = ({ className = "w-5 h-5", ...props }) => (
+  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+    <circle cx="8.5" cy="8.5" r="1.5" />
+    <polyline points="21 15 16 10 5 21" />
+  </svg>
+);
+
+export const Upload = ({ className = "w-5 h-5", ...props }) => (
+  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+    <polyline points="17 8 12 3 7 8" />
+    <line x1="12" y1="3" x2="12" y2="15" />
+  </svg>
+);
+
+export const Tag = ({ className = "w-5 h-5", ...props }) => (
+  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
+    <line x1="7" y1="7" x2="7.01" y2="7" />
   </svg>
 );
 
@@ -296,12 +360,6 @@ export const Bell = ({ className = "w-5 h-5", ...props }) => (
   </svg>
 );
 
-export const Wrench = ({ className = "w-5 h-5", ...props }) => (
-  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
-  </svg>
-);
-
 export const TrendingUp = ({ className = "w-5 h-5", ...props }) => (
   <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
     <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
@@ -371,53 +429,22 @@ export const Save = ({ className = "w-5 h-5", ...props }) => (
   </svg>
 );
 
-export const Reply = ({ className = "w-5 h-5", ...props }) => (
+export const Play = ({ className = "w-5 h-5", ...props }) => (
   <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <polyline points="9 17 4 12 9 7" />
-    <path d="M20 18v-2a4 4 0 0 0-4-4H4" />
+    <polygon points="5 3 19 12 5 21 5 3" />
   </svg>
 );
 
-// Auto-generated SVG fallbacks for admin tools
-export const HelpCircle = ({ className = "w-5 h-5", ...props }) => (
-  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <circle cx="12" cy="12" r="9" />
-    <path d="m9 12 2 2 4-4" />
-  </svg>
-);
-export const ArrowUpRight = ({ className = "w-5 h-5", ...props }) => (
-  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <circle cx="12" cy="12" r="9" />
-    <path d="m9 12 2 2 4-4" />
-  </svg>
-);
-export const Truck = ({ className = "w-5 h-5", ...props }) => (
-  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <circle cx="12" cy="12" r="9" />
-    <path d="m9 12 2 2 4-4" />
-  </svg>
-);
-export const Bus = ({ className = "w-5 h-5", ...props }) => (
-  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <circle cx="12" cy="12" r="9" />
-    <path d="m9 12 2 2 4-4" />
-  </svg>
-);
-export const Play = ({ className = "w-5 h-5", ...props }) => (
-  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <circle cx="12" cy="12" r="9" />
-    <path d="m9 12 2 2 4-4" />
-  </svg>
-);
 export const Pause = ({ className = "w-5 h-5", ...props }) => (
   <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <circle cx="12" cy="12" r="9" />
-    <path d="m9 12 2 2 4-4" />
+    <rect x="6" y="4" width="4" height="16" />
+    <rect x="14" y="4" width="4" height="16" />
   </svg>
 );
+
 export const RotateCcw = ({ className = "w-5 h-5", ...props }) => (
   <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <circle cx="12" cy="12" r="9" />
-    <path d="m9 12 2 2 4-4" />
+    <polyline points="1 4 1 10 7 10" />
+    <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />
   </svg>
 );

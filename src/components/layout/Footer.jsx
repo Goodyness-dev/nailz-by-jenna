@@ -3,7 +3,7 @@ import { Phone, Instagram, Heart, Calendar } from '../common/Icons';
 import { BUSINESS_INFO } from '../../data/businessData';
 import { imageManifest } from '../../data/imageManifest';
 
-export default function Footer({ onNavigateTreatments }) {
+export default function Footer({ onNavigateTreatments, onNavigateOrder }) {
   return (
     <footer className="bg-linen-100 dark:bg-obsidian-pure border-t border-linen-300/80 dark:border-obsidian-border py-12 transition-colors">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
@@ -23,10 +23,13 @@ export default function Footer({ onNavigateTreatments }) {
 
         {/* Links */}
         <div className="flex items-center gap-6 text-xs font-mono text-obsidian/70 dark:text-linen-300">
+          <button onClick={onNavigateOrder} className="hover:text-blushGold transition-colors font-bold text-blushGold-dark dark:text-blushGold">
+            ORDER NOW
+          </button>
           <button onClick={onNavigateTreatments} className="hover:text-blushGold transition-colors">
             TREATMENTS
           </button>
-          <a href={BUSINESS_INFO.instagramUrl} target="_blank" rel="noopener noreferrer" className="hover:text-blushGold transition-colors">
+          <a href={BUSINESS_INFO.socials.instagram} target="_blank" rel="noopener noreferrer" className="hover:text-blushGold transition-colors">
             INSTAGRAM
           </a>
           <a href={"tel:" + BUSINESS_INFO.phoneRaw} className="hover:text-blushGold transition-colors">

@@ -31,8 +31,8 @@ export default function AdminLogin({ onLoginSuccess, onBackToSite }) {
     try {
       // Local client demo fallback if backend is offline
       if (password === defaultKey) {
-        const dummyUser = { username: 'admin', role: 'owner' };
-        localStorage.setItem('tobys_auth_token', 'demo_token_nailz');
+        const dummyUser = { name: 'Jenna Soule', shop: 'Nailz by Jenna LLC', role: 'Master Nail Artist & Owner' };
+        localStorage.setItem('nailz_admin_token', 'demo_token_nailz');
         onLoginSuccess(dummyUser);
         return;
       }

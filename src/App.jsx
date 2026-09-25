@@ -7,18 +7,17 @@ import ClientCamGallery from './components/home/ClientCamGallery';
 import AmenitiesSection from './components/home/AmenitiesSection';
 import Footer from './components/layout/Footer';
 import AllServicesPage from './components/services/AllServicesPage';
-import QuoteWizardModal from './components/wizard/QuoteWizardModal';
+import CustomOrderMenu from './components/order/CustomOrderMenu';
 import AdminLayout from './components/admin/AdminLayout';
 import AdminLogin from './components/admin/AdminLogin';
-import { Phone, Calendar } from './components/common/Icons';
+import { Calendar, Sparkles } from './components/common/Icons';
 import { BUSINESS_INFO } from './data/businessData';
 import { authApi, getStoredToken } from './services/api';
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState('home'); // 'home' | 'treatments' | 'admin'
-  const [wizardOpen, setWizardOpen] = useState(false);
-  const [wizardCategory, setWizardCategory] = useState(null);
-  const [wizardService, setWizardService] = useState(null);
+  const [currentPage, setCurrentPage] = useState('home'); // 'home' | 'treatments' | 'order' | 'admin'
+  const [orderInitialDiscipline, setOrderInitialDiscipline] = useState('gel_x');
+  const [orderInitialService, setOrderInitialService] = useState(null);
 
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
   const [adminUser, setAdminUser] = useState(null);
@@ -69,6 +68,8 @@ export default function App() {
         setCurrentPage('admin');
       } else if (hash === '#/treatments' || hash === '#/services' || hash === '#treatments') {
         setCurrentPage('treatments');
+      } else if (hash === '#/order' || hash === '#order' || hash === '#/book') {
+        setCurrentPage('order');
       } else {
         setCurrentPage('home');
       }
@@ -78,10 +79,15 @@ export default function App() {
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
-  const handleNavigate = (page) => {
+  const handleNavigate = (page, discipline = 'gel_x', service = null) => {
     setCurrentPage(page);
+    setOrderInitialDiscipline(discipline);
+    setOrderInitialService(service);
+
     if (page === 'treatments') {
       window.location.hash = '#/treatments';
+    } else if (page === 'order') {
+      window.location.hash = '#/order';
     } else if (page === 'admin') {
       window.location.hash = '#/admin';
     } else {
@@ -90,18 +96,7 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleOpenWizard = (category = null, service = null) => {
-    setWizardCategory(category);
-    setWizardService(service);
-    setWizardOpen(true);
-  };
-
-  const handleCloseWizard = () => {
-    setWizardOpen(false);
-    setWizardCategory(null);
-    setWizardService(null);
-  };
-
+  // ADMIN PORTAL
   if (currentPage === 'admin') {
     return isAdminAuthenticated ? (
       <AdminLayout
@@ -123,7 +118,33 @@ export default function App() {
     );
   }
 
-  // DEDICATED TREATMENT MENU PAGE
+  // DEDICATED CUSTOM ORDER MENU PAGE
+  if (currentPage === 'order') {
+    return (
+      <div className="min-h-screen bg-linen-50 dark:bg-obsidian text-obsidian dark:text-linen-50">
+        <Navbar
+          darkMode={darkMode}
+          onToggleDarkMode={toggleDarkMode}
+          onNavigateHome={() => handleNavigate('home')}
+          onNavigateTreatments={() => handleNavigate('treatments')}
+          onNavigateOrder={() => handleNavigate('order')}
+        />
+        <main className="pt-24 pb-16">
+          <CustomOrderMenu
+            initialDiscipline={orderInitialDiscipline}
+            initialService={orderInitialService}
+            onClose={() => handleNavigate('home')}
+          />
+        </main>
+        <Footer 
+          onNavigateTreatments={() => handleNavigate('treatments')} 
+          onNavigateOrder={() => handleNavigate('order')} 
+        />
+      </div>
+    );
+  }
+
+  // DEDICATED TREATMENT MENU CATALOG PAGE
   if (currentPage === 'treatments') {
     return (
       <div className="min-h-screen bg-linen-50 dark:bg-obsidian text-obsidian dark:text-linen-50">
@@ -132,19 +153,17 @@ export default function App() {
           onToggleDarkMode={toggleDarkMode}
           onNavigateHome={() => handleNavigate('home')}
           onNavigateTreatments={() => handleNavigate('treatments')}
+          onNavigateOrder={() => handleNavigate('order')}
         />
         <main className="pt-24 pb-16">
           <AllServicesPage
-            onOpenWizard={handleOpenWizard}
+            onOpenOrder={(discipline, service) => handleNavigate('order', discipline, service)}
             onBackToHome={() => handleNavigate('home')}
           />
         </main>
-        <Footer onNavigateTreatments={() => handleNavigate('treatments')} />
-        <QuoteWizardModal
-          isOpen={wizardOpen}
-          onClose={handleCloseWizard}
-          initialCategory={wizardCategory}
-          initialService={wizardService}
+        <Footer 
+          onNavigateTreatments={() => handleNavigate('treatments')} 
+          onNavigateOrder={() => handleNavigate('order')} 
         />
       </div>
     );
@@ -158,17 +177,19 @@ export default function App() {
         onToggleDarkMode={toggleDarkMode}
         onNavigateHome={() => handleNavigate('home')}
         onNavigateTreatments={() => handleNavigate('treatments')}
+        onNavigateOrder={() => handleNavigate('order')}
       />
 
       <main id="main">
-        {/* 1. Hero with Background Image */}
+        {/* 1. Hero with Background Image & Direct Order Trigger */}
         <Hero
-          onOpenWizard={handleOpenWizard}
+          onOpenOrder={(discipline) => handleNavigate('order', discipline)}
           onNavigateTreatments={() => handleNavigate('treatments')}
         />
 
         {/* 2. Stacking Cards for Core Pillars */}
         <ServicesSection
+          onOpenOrder={(discipline) => handleNavigate('order', discipline)}
           onNavigateTreatments={() => handleNavigate('treatments')}
         />
 
@@ -182,26 +203,20 @@ export default function App() {
         <AmenitiesSection />
       </main>
 
-      <Footer onNavigateTreatments={() => handleNavigate('treatments')} />
-
-      <QuoteWizardModal
-        isOpen={wizardOpen}
-        onClose={handleCloseWizard}
-        initialCategory={wizardCategory}
-        initialService={wizardService}
+      <Footer 
+        onNavigateTreatments={() => handleNavigate('treatments')} 
+        onNavigateOrder={() => handleNavigate('order')} 
       />
 
-      {/* Minimal Mobile Floating CTA */}
+      {/* Direct In-App Floating CTA (NO EXTERNAL REDIRECT) */}
       <div className="md:hidden fixed bottom-4 right-4 z-40">
-        <a
-          href={BUSINESS_INFO.acuityBookingUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="px-5 py-3 rounded-full bg-obsidian dark:bg-blushGold text-white dark:text-obsidian text-xs font-bold shadow-2xl flex items-center gap-2 border border-white/20"
+        <button
+          onClick={() => handleNavigate('order')}
+          className="px-5 py-3 rounded-full bg-obsidian dark:bg-blushGold text-white dark:text-obsidian text-xs font-bold uppercase tracking-wider shadow-2xl flex items-center gap-2 border border-white/20 active:scale-95"
         >
-          <Calendar className="w-4 h-4 text-blushGold dark:text-obsidian" />
-          <span>Book on Acuity ↗</span>
-        </a>
+          <Sparkles className="w-4 h-4 text-blushGold dark:text-obsidian" />
+          <span>Order Now ✦</span>
+        </button>
       </div>
     </div>
   );

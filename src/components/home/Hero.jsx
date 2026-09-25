@@ -2,7 +2,7 @@ import React from 'react';
 import { Calendar, ChevronRight, Star, Sparkles } from '../common/Icons';
 import { BUSINESS_INFO } from '../../data/businessData';
 
-export default function Hero({ onOpenWizard, onNavigateTreatments }) {
+export default function Hero({ onOpenOrder, onNavigateTreatments }) {
   return (
     <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-obsidian-pure text-linen-50">
       
@@ -37,22 +37,20 @@ export default function Hero({ onOpenWizard, onNavigateTreatments }) {
           Luxury Gel-X extensions, Luminary structured manicures, and custom-welded 14k gold permanent jewelry crafted with precision.
         </p>
 
-        {/* Action CTAs */}
+        {/* Action CTAs: Direct Custom Order trigger (No Acuity Redirect) */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a
-            href={BUSINESS_INFO.acuityBookingUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full sm:w-auto px-8 py-4 rounded-xl bg-blushGold text-obsidian font-semibold text-sm tracking-wide shadow-xl hover:bg-blushGold-hover transition-all duration-200 flex items-center justify-center gap-2 group"
+          <button
+            onClick={() => onOpenOrder()}
+            className="w-full sm:w-auto px-8 py-4 rounded-full bg-blushGold text-obsidian font-bold text-xs uppercase tracking-wider shadow-2xl hover:bg-blushGold-hover transition-all duration-200 flex items-center justify-center gap-2 group cursor-pointer hover:scale-105 active:scale-95"
           >
             <Calendar className="w-4 h-4 text-obsidian group-hover:scale-110 transition-transform" />
-            <span>Book on Acuity</span>
-            <span className="font-mono text-xs opacity-75">↗</span>
-          </a>
+            <span>Order Custom Set Now</span>
+            <span className="font-mono text-xs opacity-75">✦</span>
+          </button>
 
           <button
             onClick={onNavigateTreatments}
-            className="w-full sm:w-auto px-7 py-4 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 text-white font-medium text-sm hover:bg-white/20 transition-all duration-200 flex items-center justify-center gap-2"
+            className="w-full sm:w-auto px-7 py-4 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white font-semibold text-xs uppercase tracking-wider hover:bg-white/20 transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer"
           >
             <span>Explore Treatment Menu</span>
             <ChevronRight className="w-4 h-4 text-blushGold" />

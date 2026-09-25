@@ -1,189 +1,188 @@
 import React, { useState } from 'react';
-import { X, Plus, Wrench, Loader2, Check } from '../common/Icons';
-import { quotesApi } from '../../services/api';
-import { VEHICLE_MAKES } from '../../data/makesData';
+import { X, Plus, Calendar, Clock, Sparkles, Check } from '../common/Icons';
+import { salonStore } from '../../services/salonStore';
 
 export default function NewOrderModal({ isOpen, onClose, onCreated }) {
-  const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    email: '',
-    make: 'Ford',
-    modelAndYear: '',
-    serviceCategory: 'Repairs',
-    detailedService: 'Brakes',
-    details: '',
-    timeline: 'As soon as possible',
-    needsTowing: false,
-    needsShuttle: false
-  });
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState('');
-
   if (!isOpen) return null;
 
-  const handleSubmit = async (e) => {
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [instagram, setInstagram] = useState('');
+  const [discipline, setDiscipline] = useState('Aprés Gel-X Extensions');
+  const [shape, setShape] = useState('Almond');
+  const [length, setLength] = useState('Medium');
+  const [artTier, setArtTier] = useState('Tier 1: Minimalist Chrome / French');
+  const [date, setDate] = useState('Today');
+  const [timeSlot, setTimeSlot] = useState('2:00 PM');
+  const [price, setPrice] = useState(95);
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formData.name || !formData.email) {
-      setError('Please fill in customer name and email.');
-      return;
-    }
+    if (!name.trim()) return;
 
-    setIsSubmitting(true);
-    setError('');
+    const newOrder = salonStore.createOrder({
+      name: name.trim(),
+      phone: phone.trim() || '(916) 000-0000',
+      email: '',
+      instagram: instagram.trim() ? (instagram.startsWith('@') ? instagram : `@${instagram}`) : '@walkin',
+      discipline,
+      service: `${discipline} (${shape} ${length})`,
+      shape,
+      length,
+      artTier,
+      date,
+      timeSlot,
+      estimatedTotal: Number(price),
+      depositStatus: 'paid',
+      status: 'confirmed'
+    });
 
-    try {
-      const payload = {
-        ...formData,
-        id: `QUOTE-MANUAL-${Date.now().toString().slice(-4)}`
-      };
-      const res = await quotesApi.submitPublicQuote(payload);
-      if (onCreated) onCreated(res.quote || payload);
-      onClose();
-    } catch (err) {
-      setError(err.data?.error || err.message || 'Failed to create quote');
-    } finally {
-      setIsSubmitting(false);
-    }
+    if (onCreated) onCreated(newOrder);
+    onClose();
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-900/60 backdrop-blur-sm overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/60 backdrop-blur-xs overflow-y-auto">
       <div 
-        className="relative w-full max-w-lg bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-5 my-auto"
+        className="relative w-full max-w-lg bg-white dark:bg-obsidian-card border-2 border-linen-300 dark:border-obsidian-border rounded-3xl p-6 sm:p-8 shadow-2xl space-y-5 my-auto"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between border-b border-slate-200 pb-4">
-          <div className="flex items-center space-x-2.5">
-            <div className="w-9 h-9 rounded-xl bg-shop-light border border-shop-border flex items-center justify-center text-shop-red">
-              <Plus className="w-4 h-4" />
-            </div>
-            <h2 className="text-xl font-black font-heading text-slate-900">Record Manual / Walk-In Quote</h2>
+        <div className="flex items-center justify-between border-b border-linen-200 dark:border-obsidian-border pb-4">
+          <div className="flex items-center gap-2">
+            <Plus className="w-5 h-5 text-blushGold" />
+            <h2 className="font-serif text-xl font-bold text-obsidian dark:text-linen-50">
+              Log Walk-In or DM Booking
+            </h2>
           </div>
-          <button onClick={onClose} className="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg">
+          <button onClick={onClose} className="p-1.5 text-obsidian/40 hover:text-obsidian rounded-lg">
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {error && (
-          <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs">
-            {error}
-          </div>
-        )}
-
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">Customer Name *</label>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-obsidian/70 dark:text-linen-300">Client Name *</label>
               <input
                 type="text"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                placeholder="First & Last Name"
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-900 outline-none focus:border-red-600 focus:bg-white"
                 required
+                placeholder="Client Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full px-3 py-2 rounded-xl border border-linen-300 dark:border-obsidian-border bg-white dark:bg-obsidian-card text-xs text-obsidian dark:text-linen-100"
               />
             </div>
-            <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">Phone</label>
-              <input
-                type="tel"
-                value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                placeholder="(520) 000-0000"
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-900 outline-none focus:border-red-600 focus:bg-white"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1">Customer Email *</label>
-            <input
-              type="email"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              placeholder="customer@email.com"
-              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-900 outline-none focus:border-red-600 focus:bg-white"
-              required
-            />
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">Make / Type</label>
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-obsidian/70 dark:text-linen-300">Phone</label>
               <input
                 type="text"
-                value={formData.make}
-                onChange={(e) => setFormData({ ...formData, make: e.target.value })}
-                placeholder="e.g. Ford / Residential / Commercial"
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-900 outline-none focus:border-shop-red focus:bg-white"
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">Item / Property Details</label>
-              <input
-                type="text"
-                value={formData.modelAndYear}
-                onChange={(e) => setFormData({ ...formData, modelAndYear: e.target.value })}
-                placeholder="e.g. 2018 F-250 or Main Level Bath"
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-900 outline-none focus:border-shop-red focus:bg-white"
+                placeholder="(916) 000-0000"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className="w-full px-3 py-2 rounded-xl border border-linen-300 dark:border-obsidian-border bg-white dark:bg-obsidian-card text-xs text-obsidian dark:text-linen-100"
               />
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">Category</label>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-obsidian/70 dark:text-linen-300">Instagram Handle</label>
+              <input
+                type="text"
+                placeholder="@client"
+                value={instagram}
+                onChange={(e) => setInstagram(e.target.value)}
+                className="w-full px-3 py-2 rounded-xl border border-linen-300 dark:border-obsidian-border bg-white dark:bg-obsidian-card text-xs text-obsidian dark:text-linen-100"
+              />
+            </div>
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-obsidian/70 dark:text-linen-300">Service Specialty</label>
               <select
-                value={formData.serviceCategory}
-                onChange={(e) => setFormData({ ...formData, serviceCategory: e.target.value })}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-900 outline-none focus:border-shop-red focus:bg-white"
+                value={discipline}
+                onChange={(e) => setDiscipline(e.target.value)}
+                className="w-full px-3 py-2 rounded-xl border border-linen-300 dark:border-obsidian-border bg-white dark:bg-obsidian-card text-xs text-obsidian dark:text-linen-100"
               >
-                <option value="Diagnosis and inspection">Diagnosis & Inspection</option>
-                <option value="Maintenance">Maintenance</option>
-                <option value="Repairs">Repairs / Emergency</option>
-                <option value="Custom issue">Custom / Other</option>
+                <option value="Aprés Gel-X Extensions">Aprés Gel-X Extensions</option>
+                <option value="Luminary Structured Gel">Luminary Structured Gel</option>
+                <option value="Permanent Jewelry Bar">Permanent Jewelry Bar</option>
+                <option value="Safe Soak-Off & Recovery">Safe Soak-Off & Recovery</option>
               </select>
             </div>
-            <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">Service</label>
+          </div>
+
+          <div className="grid grid-cols-3 gap-2">
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-obsidian/70 dark:text-linen-300">Shape</label>
+              <select
+                value={shape}
+                onChange={(e) => setShape(e.target.value)}
+                className="w-full px-2 py-2 rounded-xl border border-linen-300 dark:border-obsidian-border bg-white dark:bg-obsidian-card text-xs text-obsidian dark:text-linen-100"
+              >
+                <option value="Almond">Almond</option>
+                <option value="Coffin">Coffin</option>
+                <option value="Square">Square</option>
+                <option value="Stiletto">Stiletto</option>
+                <option value="Round">Round</option>
+              </select>
+            </div>
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-obsidian/70 dark:text-linen-300">Length</label>
+              <select
+                value={length}
+                onChange={(e) => setLength(e.target.value)}
+                className="w-full px-2 py-2 rounded-xl border border-linen-300 dark:border-obsidian-border bg-white dark:bg-obsidian-card text-xs text-obsidian dark:text-linen-100"
+              >
+                <option value="Short">Short</option>
+                <option value="Medium">Medium</option>
+                <option value="Long">Long</option>
+                <option value="XL">XL</option>
+              </select>
+            </div>
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-obsidian/70 dark:text-linen-300">Price ($)</label>
               <input
-                type="text"
-                value={formData.detailedService}
-                onChange={(e) => setFormData({ ...formData, detailedService: e.target.value })}
-                placeholder="e.g. Brakes, Pipe Repair"
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-900 outline-none focus:border-shop-red focus:bg-white"
+                type="number"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                className="w-full px-2 py-2 rounded-xl border border-linen-300 dark:border-obsidian-border bg-white dark:bg-obsidian-card text-xs text-obsidian dark:text-linen-100"
               />
             </div>
           </div>
 
-          <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1">Notes / Symptoms</label>
-            <textarea
-              rows={2}
-              value={formData.details}
-              onChange={(e) => setFormData({ ...formData, details: e.target.value })}
-              placeholder="Walk-in notes, customer phone notes..."
-              className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-900 outline-none focus:border-shop-red focus:bg-white"
-            />
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-obsidian/70 dark:text-linen-300">Date</label>
+              <input
+                type="text"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                className="w-full px-3 py-2 rounded-xl border border-linen-300 dark:border-obsidian-border bg-white dark:bg-obsidian-card text-xs text-obsidian dark:text-linen-100"
+              />
+            </div>
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-obsidian/70 dark:text-linen-300">Time Slot</label>
+              <input
+                type="text"
+                value={timeSlot}
+                onChange={(e) => setTimeSlot(e.target.value)}
+                className="w-full px-3 py-2 rounded-xl border border-linen-300 dark:border-obsidian-border bg-white dark:bg-obsidian-card text-xs text-obsidian dark:text-linen-100"
+              />
+            </div>
           </div>
 
-          <div className="flex justify-end space-x-3 pt-3 border-t border-slate-200">
+          <div className="pt-4 border-t border-linen-200 dark:border-obsidian-border flex justify-end gap-2">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-xl text-slate-500 hover:text-slate-800 text-xs font-bold cursor-pointer"
+              className="px-4 py-2 rounded-full border border-linen-300 text-xs font-semibold text-obsidian dark:text-linen-300"
             >
               Cancel
             </button>
             <button
               type="submit"
-              disabled={isSubmitting}
-              className="px-5 py-2.5 rounded-xl bg-shop-red hover:bg-shop-redHover text-white text-xs font-bold transition flex items-center space-x-1.5 shadow-md shadow-shop-red/20 active:scale-95 cursor-pointer"
+              className="px-6 py-2 rounded-full bg-obsidian dark:bg-blushGold text-white dark:text-obsidian text-xs font-bold uppercase tracking-wider shadow-md"
             >
-              {isSubmitting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Check className="w-3.5 h-3.5" />}
-              <span>Save to Orders</span>
+              Add to Books
             </button>
           </div>
         </form>

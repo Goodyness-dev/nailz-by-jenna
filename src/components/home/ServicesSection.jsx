@@ -1,38 +1,37 @@
 import React from 'react';
-import { ChevronRight, Calendar } from '../common/Icons';
-import { BUSINESS_INFO } from '../../data/businessData';
+import { ChevronRight, Calendar, Sparkles } from '../common/Icons';
 
-export default function ServicesSection({ onNavigateTreatments }) {
+export default function ServicesSection({ onNavigateTreatments, onOpenOrder }) {
   const stacks = [
     {
       index: '01',
       category: 'GEL-X EXTENSIONS',
+      disciplineId: 'gel_x',
       title: 'Sculpted Length. Zero Natural Nail Damage.',
       description: 'Authentic Aprés Gel-X soft gel extensions tailored to your apex. Lightweight, natural feel, and durable 4–5 week retention.',
-      specs: 'Almond, Coffin, Stiletto, Square • From $75',
+      specs: 'Almond, Coffin, Stiletto, Square • From $85',
       image: '/images/gel-x-extensions.jpg',
-      alt: 'Luxury Gel-X extensions set by Jenna',
-      linkCategory: 'Gel-X Extensions'
+      alt: 'Luxury Gel-X extensions set by Jenna'
     },
     {
       index: '02',
       category: 'STRUCTURED GEL',
+      disciplineId: 'structured_gel',
       title: 'Luminary Multi-Flex. True Natural Nail Health.',
       description: 'Strengthens, protects, and grows your natural nails with a crystal-clear reinforced apex. Eliminates chipping and brittle breaks.',
       specs: 'Builder Overlay & Refill • From $65',
       image: '/images/polaroid-set-2.jpg',
-      alt: 'Structured gel Luminary manicure by Jenna',
-      linkCategory: 'Structured Gel'
+      alt: 'Structured gel Luminary manicure by Jenna'
     },
     {
       index: '03',
       category: 'PERMANENT JEWELRY BAR',
+      disciplineId: 'permanent_jewelry',
       title: 'Claspless 14k Gold & Sterling Silver Chains.',
       description: 'Custom-fitted delicate chains micro-welded seamlessly onto your wrist, ankle, or neck. Waterproof, hypoallergenic, and tarnish-free.',
       specs: 'Single Chains & 3-Stacks • From $65',
       image: '/images/permanent-jewelry.jpg',
-      alt: 'Permanent jewelry welding on wrist by Jenna',
-      linkCategory: 'Permanent Jewelry'
+      alt: 'Permanent jewelry welding on wrist by Jenna'
     }
   ];
 
@@ -92,51 +91,37 @@ export default function ServicesSection({ onNavigateTreatments }) {
                   </p>
 
                   <div className="pt-2 flex items-center gap-4">
-                    <a
-                      href={BUSINESS_INFO.acuityBookingUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-5 py-2.5 rounded-xl bg-obsidian dark:bg-blushGold text-white dark:text-obsidian text-xs font-semibold hover:opacity-90 transition-opacity flex items-center gap-1.5"
+                    <button
+                      onClick={() => onOpenOrder(card.disciplineId)}
+                      className="px-5 py-2.5 rounded-full bg-obsidian dark:bg-blushGold text-white dark:text-obsidian text-xs font-bold uppercase tracking-wider hover:opacity-90 transition-opacity flex items-center gap-1.5 shadow-sm active:scale-95 cursor-pointer"
                     >
-                      <Calendar className="w-3.5 h-3.5" />
-                      <span>Book Slot ↗</span>
-                    </a>
+                      <Calendar className="w-3.5 h-3.5 text-blushGold dark:text-obsidian" />
+                      <span>Order This Set ↗</span>
+                    </button>
                     <button
                       onClick={onNavigateTreatments}
-                      className="text-xs font-semibold text-blushGold-dark dark:text-blushGold hover:underline flex items-center gap-1"
+                      className="text-xs font-semibold text-obsidian/70 dark:text-linen-300 hover:text-blushGold transition-colors"
                     >
-                      <span>Explore details</span>
-                      <ChevronRight className="w-3.5 h-3.5" />
+                      Learn more
                     </button>
                   </div>
                 </div>
 
-                {/* Right: Tactile Visual */}
+                {/* Right: Tactile Image Card */}
                 <div className="md:col-span-5">
-                  <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-linen-200 dark:bg-obsidian-subtle border border-linen-300 dark:border-obsidian-border">
+                  <div className="relative rounded-2xl overflow-hidden shadow-lg border border-linen-300 dark:border-obsidian-border group aspect-[4/3]">
                     <img
                       src={card.image}
                       alt={card.alt}
-                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                      loading="lazy"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                     />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
                   </div>
                 </div>
 
               </div>
             </div>
           ))}
-        </div>
-
-        {/* Minimalist Bottom Link */}
-        <div className="mt-16 text-center">
-          <button
-            onClick={onNavigateTreatments}
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-linen-200 dark:bg-obsidian border border-linen-300 dark:border-obsidian-border text-obsidian dark:text-linen-100 font-semibold text-sm hover:bg-linen-300/80 transition-colors"
-          >
-            <span>Open Full Treatment Directory (French Tips, Chrome, 3D Art &amp; Stacks)</span>
-            <span className="font-mono text-xs text-blushGold">↗</span>
-          </button>
         </div>
 
       </div>

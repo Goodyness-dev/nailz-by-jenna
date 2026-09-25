@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
-import { Phone, Calendar, Menu, X, Sun, Moon } from '../common/Icons';
+import { Phone, Calendar, Menu, X, Sun, Moon, Sparkles } from '../common/Icons';
 import { BUSINESS_INFO } from '../../data/businessData';
 import { imageManifest } from '../../data/imageManifest';
 
-export default function Navbar({ darkMode, onToggleDarkMode, onNavigateHome, onNavigateTreatments }) {
+export default function Navbar({ 
+  darkMode, 
+  onToggleDarkMode, 
+  onNavigateHome, 
+  onNavigateTreatments,
+  onNavigateOrder 
+}) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -38,6 +44,13 @@ export default function Navbar({ darkMode, onToggleDarkMode, onNavigateHome, onN
             >
               Treatment Menu
             </button>
+            <button
+              onClick={onNavigateOrder}
+              className="text-xs font-mono uppercase tracking-wider text-blushGold-dark dark:text-blushGold hover:underline transition-colors font-bold flex items-center gap-1"
+            >
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Order Custom Set</span>
+            </button>
             <a
               href="#about"
               className="text-xs font-mono uppercase tracking-wider text-obsidian/80 dark:text-linen-200 hover:text-blushGold transition-colors"
@@ -68,15 +81,13 @@ export default function Navbar({ darkMode, onToggleDarkMode, onNavigateHome, onN
               {darkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4" />}
             </button>
 
-            <a
-              href={BUSINESS_INFO.acuityBookingUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden sm:inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-obsidian dark:bg-blushGold text-white dark:text-obsidian text-xs font-semibold hover:opacity-90 transition-opacity"
+            <button
+              onClick={onNavigateOrder}
+              className="hidden sm:inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-obsidian dark:bg-blushGold text-white dark:text-obsidian text-xs font-bold uppercase tracking-wider hover:opacity-90 transition-all shadow-md active:scale-95"
             >
               <Calendar className="w-3.5 h-3.5 text-blushGold dark:text-obsidian" />
-              <span>Book Online ↗</span>
-            </a>
+              <span>Order Now ✦</span>
+            </button>
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -95,41 +106,50 @@ export default function Navbar({ darkMode, onToggleDarkMode, onNavigateHome, onN
           <button
             onClick={() => {
               setMobileMenuOpen(false);
+              onNavigateOrder();
+            }}
+            className="block w-full text-center py-3 rounded-xl bg-blushGold text-obsidian font-bold text-xs uppercase tracking-wider shadow-sm"
+          >
+            ✦ Order Custom Set Now
+          </button>
+          <button
+            onClick={() => {
+              setMobileMenuOpen(false);
               onNavigateTreatments();
             }}
             className="block w-full text-left py-2 font-medium text-sm text-obsidian dark:text-white"
           >
-            Full Treatment Menu ↗
+            Treatment Catalog & Pricing
           </button>
           <a
             href="#about"
             onClick={() => setMobileMenuOpen(false)}
-            className="block py-2 font-medium text-sm text-obsidian dark:text-white"
+            className="block w-full text-left py-2 font-medium text-sm text-obsidian dark:text-white"
           >
-            Meet Jenna
+            Meet Jenna Soule
           </a>
           <a
             href="#gallery"
             onClick={() => setMobileMenuOpen(false)}
-            className="block py-2 font-medium text-sm text-obsidian dark:text-white"
+            className="block w-full text-left py-2 font-medium text-sm text-obsidian dark:text-white"
           >
-            Client Cam
+            Client Cam Polaroids
           </a>
           <a
             href="#policies"
             onClick={() => setMobileMenuOpen(false)}
-            className="block py-2 font-medium text-sm text-obsidian dark:text-white"
+            className="block w-full text-left py-2 font-medium text-sm text-obsidian dark:text-white"
           >
-            Studio Guidelines
+            Studio Guidelines & Hours
           </a>
-          <a
-            href={BUSINESS_INFO.acuityBookingUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block w-full text-center py-3 rounded-xl bg-obsidian dark:bg-blushGold text-white dark:text-obsidian font-semibold text-xs mt-2"
-          >
-            Book on Acuity Calendar ↗
-          </a>
+          <div className="pt-2 border-t border-linen-200 dark:border-obsidian-border flex items-center justify-between text-xs font-mono">
+            <a href="tel:9168509262" className="text-blushGold font-bold">
+              (916) 850-9262
+            </a>
+            <a href="#/admin" className="text-obsidian/40 dark:text-linen-400">
+              Admin Login
+            </a>
+          </div>
         </div>
       )}
     </nav>
