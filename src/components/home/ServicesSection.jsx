@@ -1,146 +1,142 @@
-import React, { useState } from 'react';
-import { SERVICES } from '../../data/servicesData';
+import React from 'react';
+import { ChevronRight, Calendar } from '../common/Icons';
 import { BUSINESS_INFO } from '../../data/businessData';
-import { Calendar, Sparkles, ChevronRight } from '../common/Icons';
 
-export default function ServicesSection({ onOpenWizard }) {
-  const categories = [
-    'All Treatments',
-    'Gel-X Extensions',
-    'Structured Gel',
-    'Custom Nail Art',
-    'Permanent Jewelry',
-    'Removals & Care'
+export default function ServicesSection({ onNavigateTreatments }) {
+  const stacks = [
+    {
+      index: '01',
+      category: 'GEL-X EXTENSIONS',
+      title: 'Sculpted Length. Zero Natural Nail Damage.',
+      description: 'Authentic Aprés Gel-X soft gel extensions tailored to your apex. Lightweight, natural feel, and durable 4–5 week retention.',
+      specs: 'Almond, Coffin, Stiletto, Square • From $75',
+      image: '/images/gel-x-extensions.jpg',
+      alt: 'Luxury Gel-X extensions set by Jenna',
+      linkCategory: 'Gel-X Extensions'
+    },
+    {
+      index: '02',
+      category: 'STRUCTURED GEL',
+      title: 'Luminary Multi-Flex. True Natural Nail Health.',
+      description: 'Strengthens, protects, and grows your natural nails with a crystal-clear reinforced apex. Eliminates chipping and brittle breaks.',
+      specs: 'Builder Overlay & Refill • From $65',
+      image: '/images/polaroid-set-2.jpg',
+      alt: 'Structured gel Luminary manicure by Jenna',
+      linkCategory: 'Structured Gel'
+    },
+    {
+      index: '03',
+      category: 'PERMANENT JEWELRY BAR',
+      title: 'Claspless 14k Gold & Sterling Silver Chains.',
+      description: 'Custom-fitted delicate chains micro-welded seamlessly onto your wrist, ankle, or neck. Waterproof, hypoallergenic, and tarnish-free.',
+      specs: 'Single Chains & 3-Stacks • From $65',
+      image: '/images/permanent-jewelry.jpg',
+      alt: 'Permanent jewelry welding on wrist by Jenna',
+      linkCategory: 'Permanent Jewelry'
+    }
   ];
 
-  const [activeCategory, setActiveCategory] = useState('All Treatments');
-
-  const filteredServices = activeCategory === 'All Treatments'
-    ? SERVICES
-    : SERVICES.filter(s => s.category === activeCategory);
-
   return (
-    <section id="services" className="py-20 md:py-28 bg-linen-50 dark:bg-obsidian relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="services" className="py-24 md:py-32 bg-linen-100 dark:bg-obsidian-card relative">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-4 mb-12">
-          <p className="text-xs sm:text-sm font-mono tracking-widest text-blushGold-dark dark:text-blushGold uppercase">
-            // 01 THE SERVICE CATALOG
-          </p>
-          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-obsidian dark:text-linen-50">
-            Artistry &amp; Precision for <span className="italic font-normal text-blushGold">Every Nail.</span>
-          </h2>
-          <p className="text-base text-obsidian/70 dark:text-linen-300 font-sans font-light">
-            Every appointment begins with meticulous Russian e-file cuticle care and ends with long-lasting, picture-perfect results. Tiered pricing tailored to your custom style.
-          </p>
+        {/* Editorial Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-4">
+          <div>
+            <p className="text-xs font-mono tracking-widest text-blushGold-dark dark:text-blushGold uppercase mb-2">
+              // CORE SPECIALTIES
+            </p>
+            <h2 className="font-serif text-3xl sm:text-5xl font-bold text-obsidian dark:text-linen-50">
+              The signature <span className="italic font-normal text-blushGold">edit.</span>
+            </h2>
+          </div>
+          <button
+            onClick={onNavigateTreatments}
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-obsidian dark:text-linen-100 hover:text-blushGold transition-colors"
+          >
+            <span>View all 14 treatments &amp; art</span>
+            <ChevronRight className="w-4 h-4 text-blushGold" />
+          </button>
         </div>
 
-        {/* Category Filter Pills */}
-        <div className="flex items-center justify-start sm:justify-center gap-2 overflow-x-auto pb-4 mb-10 no-scrollbar">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-medium whitespace-nowrap transition-all duration-200 border ${
-                activeCategory === cat
-                  ? 'bg-obsidian dark:bg-blushGold text-white dark:text-obsidian border-obsidian dark:border-blushGold shadow-md'
-                  : 'bg-linen-200/80 dark:bg-obsidian-card text-obsidian/70 dark:text-linen-300 border-linen-300 dark:border-obsidian-border hover:bg-linen-300/80 dark:hover:bg-obsidian-cardHover'
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-
-        {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredServices.map((service) => (
+        {/* STACKING CARDS CONTAINER */}
+        <div className="space-y-8 md:space-y-12">
+          {stacks.map((card, i) => (
             <div
-              key={service.id}
-              className="card-thick card-thick-hover bg-linen-100/90 dark:bg-obsidian-card p-7 sm:p-8 flex flex-col justify-between"
+              key={card.index}
+              style={{
+                top: `${100 + i * 24}px`,
+                zIndex: i + 10
+              }}
+              className="sticky card-thick bg-white dark:bg-obsidian border-2 border-[#E7DFD5] dark:border-obsidian-border p-6 sm:p-10 shadow-xl rounded-3xl transition-all duration-300"
             >
-              <div>
-                {/* Top Badge: Category & Price */}
-                <div className="flex items-start justify-between gap-4 mb-4">
-                  <span className="text-[11px] font-mono tracking-wider px-2.5 py-1 rounded bg-linen-200 dark:bg-obsidian-subtle text-obsidian/60 dark:text-linen-400">
-                    {service.subType}
-                  </span>
-                  <div className="text-right">
-                    <span className="font-serif text-xl sm:text-2xl font-bold text-obsidian dark:text-linen-50">
-                      {service.price}
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                
+                {/* Left: Content */}
+                <div className="md:col-span-7 space-y-4">
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs font-mono font-bold px-2.5 py-1 rounded bg-blushGold/15 text-blushGold-dark dark:text-blushGold">
+                      {card.index} // {card.category}
                     </span>
-                    <span className="block text-[11px] text-obsidian/50 dark:text-linen-400 font-mono">
-                      {service.duration}
+                    <span className="text-xs font-mono text-obsidian/50 dark:text-linen-400">
+                      {card.specs}
                     </span>
+                  </div>
+
+                  <h3 className="font-serif text-2xl sm:text-3xl font-bold text-obsidian dark:text-linen-50 leading-tight">
+                    {card.title}
+                  </h3>
+
+                  <p className="text-sm sm:text-base text-obsidian/75 dark:text-linen-300 font-light leading-relaxed">
+                    {card.description}
+                  </p>
+
+                  <div className="pt-2 flex items-center gap-4">
+                    <a
+                      href={BUSINESS_INFO.acuityBookingUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-5 py-2.5 rounded-xl bg-obsidian dark:bg-blushGold text-white dark:text-obsidian text-xs font-semibold hover:opacity-90 transition-opacity flex items-center gap-1.5"
+                    >
+                      <Calendar className="w-3.5 h-3.5" />
+                      <span>Book Slot ↗</span>
+                    </a>
+                    <button
+                      onClick={onNavigateTreatments}
+                      className="text-xs font-semibold text-blushGold-dark dark:text-blushGold hover:underline flex items-center gap-1"
+                    >
+                      <span>Explore details</span>
+                      <ChevronRight className="w-3.5 h-3.5" />
+                    </button>
                   </div>
                 </div>
 
-                {/* Service Title */}
-                <h3 className="font-serif text-xl font-bold text-obsidian dark:text-linen-50 mb-3 leading-snug">
-                  {service.title}
-                </h3>
-
-                {/* Description */}
-                <p className="text-sm text-obsidian/75 dark:text-linen-300/90 leading-relaxed font-light mb-6">
-                  {service.description}
-                </p>
-              </div>
-
-              {/* Tags & Action Button */}
-              <div>
-                <div className="flex flex-wrap gap-1.5 mb-6">
-                  {service.tags.map((tag, i) => (
-                    <span
-                      key={i}
-                      className="text-[11px] px-2.5 py-1 rounded-full bg-blushGold/10 dark:bg-blushGold/15 text-blushGold-dark dark:text-blushGold font-medium"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+                {/* Right: Tactile Visual */}
+                <div className="md:col-span-5">
+                  <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-linen-200 dark:bg-obsidian-subtle border border-linen-300 dark:border-obsidian-border">
+                    <img
+                      src={card.image}
+                      alt={card.alt}
+                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                      loading="lazy"
+                    />
+                  </div>
                 </div>
 
-                <div className="flex items-center gap-3 pt-3 border-t border-linen-300/80 dark:border-obsidian-border">
-                  <a
-                    href={BUSINESS_INFO.acuityBookingUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 py-3 px-4 rounded-xl bg-obsidian dark:bg-blushGold text-white dark:text-obsidian text-xs sm:text-sm font-semibold text-center hover:opacity-95 transition-opacity flex items-center justify-center gap-1.5"
-                  >
-                    <span>Book on Acuity</span>
-                    <span className="font-mono text-xs">↗</span>
-                  </a>
-                  <button
-                    onClick={() => onOpenWizard(service.category, service.title)}
-                    className="py-3 px-4 rounded-xl bg-linen-200 dark:bg-obsidian-subtle text-obsidian dark:text-linen-100 text-xs sm:text-sm font-medium hover:bg-linen-300 dark:hover:bg-obsidian-border transition-colors"
-                  >
-                    Quote
-                  </button>
-                </div>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Acuity Direct Full Menu Banner */}
-        <div className="mt-14 card-thick bg-gradient-to-r from-linen-200 via-linen-100 to-linen-200 dark:from-obsidian-card dark:via-obsidian-cardHover dark:to-obsidian-card p-8 md:p-12 text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="space-y-2">
-            <h3 className="font-serif text-2xl md:text-3xl font-bold text-obsidian dark:text-linen-50">
-              Ready to create your dream set?
-            </h3>
-            <p className="text-sm md:text-base text-obsidian/75 dark:text-linen-300 font-light max-w-xl">
-              Select your favorite service, choose your add-on art or jewelry stack, and view real-time live availability on Jenna Soule\'s Acuity calendar.
-            </p>
-          </div>
-          <a
-            href={BUSINESS_INFO.acuityBookingUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-8 py-4 rounded-2xl bg-obsidian dark:bg-blushGold text-white dark:text-obsidian font-semibold tracking-wide shadow-xl hover:opacity-90 transition-all flex items-center gap-2 whitespace-nowrap"
+        {/* Minimalist Bottom Link */}
+        <div className="mt-16 text-center">
+          <button
+            onClick={onNavigateTreatments}
+            className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-linen-200 dark:bg-obsidian border border-linen-300 dark:border-obsidian-border text-obsidian dark:text-linen-100 font-semibold text-sm hover:bg-linen-300/80 transition-colors"
           >
-            <Calendar className="w-5 h-5 text-blushGold dark:text-obsidian" />
-            <span>Open Acuity Scheduler</span>
-          </a>
+            <span>Open Full Treatment Directory (French Tips, Chrome, 3D Art &amp; Stacks)</span>
+            <span className="font-mono text-xs text-blushGold">↗</span>
+          </button>
         </div>
 
       </div>
