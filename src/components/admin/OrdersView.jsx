@@ -3,7 +3,7 @@ import {
   Search, RefreshCw, Plus, Clock, CheckCircle2, 
   Send, AlertCircle, Phone, Mail, ArrowUpRight, 
   Filter, ChevronRight, Truck, Bus, Wrench, Loader2
-} from 'lucide-react';
+} from '../common/Icons';
 import { quotesApi } from '../../services/api';
 import QuoteDetailModal from './QuoteDetailModal';
 import NewOrderModal from './NewOrderModal';

@@ -1,110 +1,154 @@
 import React from 'react';
-import { ChevronRight, Phone, Wrench, Shield } from 'lucide-react';
+import { Phone, Calendar, Sparkles, Star, ChevronRight, Heart } from '../common/Icons';
 import { BUSINESS_INFO } from '../../data/businessData';
+import { imageManifest } from '../../data/imageManifest';
 
 export default function Hero({ onOpenWizard }) {
   return (
-    <section className="relative overflow-hidden" aria-label="Introduction & Quick Quote">
-      {/* Full-width Hero with Preloaded Video Background */}
-      <div className="relative min-h-[540px] sm:min-h-[620px] lg:min-h-[680px] flex items-center">
-        {/* Video Background with auto preload and bulletproof image fallback */}
-        <div className="absolute inset-0 overflow-hidden bg-neutral-950 bg-[url('/images/hero-truck.jpg')] bg-cover bg-center">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-            className="w-full h-full object-cover"
-            poster="/images/hero-truck.jpg"
-            aria-hidden="true"
-          >
-            <source src="/images/hero-video.mp4" type="video/mp4" />
-          </video>
-          {/* Overlay gradient optimized for crisp text contrast */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-black/35" />
-        </div>
+    <section className="relative pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden bg-polka-subtle">
+      {/* Decorative gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-linen-50/70 via-transparent to-linen-100/90 dark:from-obsidian-pure/80 dark:to-obsidian pointer-events-none" />
 
-        {/* Hero Content (Bigger typography) */}
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 lg:py-32 w-full">
-          <div className="max-w-3xl space-y-5 sm:space-y-6">
-            {/* Small badge */}
-            <div className="inline-flex items-center space-x-2.5 px-4 py-2 rounded-full bg-white/15 backdrop-blur-sm text-white text-xs sm:text-sm font-semibold border border-white/20">
-              <span className="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse" />
-              <span>Casa Grande's Trusted Shop Since 2009</span>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+          
+          {/* Left Column: Value Proposition */}
+          <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
+            
+            {/* Top Badge: Special New Client Offer */}
+            <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-blushGold/15 border border-blushGold/40 dark:bg-blushGold/20 dark:border-blushGold/50 text-blushGold-dark dark:text-blushGold font-medium text-xs sm:text-sm tracking-wide">
+              <Sparkles className="w-4 h-4 text-blushGold animate-pulse" />
+              <span>{BUSINESS_INFO.specialOffer.badge}</span>
+              <span className="hidden sm:inline text-obsidian/40 dark:text-white/40">•</span>
+              <span className="hidden sm:inline text-obsidian/80 dark:text-linen-100">Roseville, CA</span>
             </div>
 
-            {/* Headline (Bigger: 4xl to 7xl) */}
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black font-heading text-white tracking-tight leading-[1.1]">
-              Dependable Auto & Diesel Care
+            {/* Main Headline */}
+            <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-obsidian dark:text-linen-50 leading-[1.12]">
+              Luxury Gel-X, Structured Gel &amp; <span className="italic font-normal text-blushGold">Permanent Jewelry.</span>
             </h1>
 
-            {/* Subtitle (Bigger: text-lg to 2xl) */}
-            <p className="text-lg sm:text-2xl text-white/90 max-w-2xl leading-relaxed font-medium">
-              Family-owned repair shop specializing in engine swaps, diesel diagnostics, and honest automotive work in Casa Grande, AZ.
+            {/* Subhead / Bio Snippet */}
+            <p className="text-base sm:text-lg text-obsidian/80 dark:text-linen-200/90 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-sans font-light">
+              Welcome to <span className="font-semibold text-obsidian dark:text-white">Nailz by Jenna</span>, an intimate 1-on-1 private salon suite led by licensed nail technician <span className="font-semibold text-obsidian dark:text-white">Jenna Soule</span>. Delivering flawless Apres Gel-X architecture, Luminary builder overlays, and custom micro-welded 14k gold chains in Roseville, CA.
             </p>
 
-            {/* CTAs (Bigger padding and font) */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
+            {/* Key Service Tags */}
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 pt-1">
+              {[
+                '// 01 LUXURY GEL-X EXTENSIONS',
+                '// 02 LUMINARY STRUCTURED GEL',
+                '// 03 CUSTOM 3D ART & CHROME',
+                '// 04 14K PERMANENT JEWELRY'
+              ].map((tag, i) => (
+                <span key={i} className="text-xs font-mono tracking-wider px-3 py-1.5 rounded-lg bg-linen-200/70 dark:bg-obsidian-card border border-linen-300 dark:border-obsidian-border text-obsidian/70 dark:text-linen-300">
+                  {tag}
+                </span>
+              ))}
+            </div>
+
+            {/* CTAs */}
+            <div className="pt-3 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+              {/* Primary Direct Acuity Link */}
+              <a
+                href={BUSINESS_INFO.acuityBookingUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-obsidian dark:bg-blushGold text-white dark:text-obsidian font-semibold text-base tracking-wide shadow-xl hover:bg-obsidian/90 dark:hover:bg-blushGold-hover transition-all duration-200 flex items-center justify-center gap-3 group"
+              >
+                <Calendar className="w-5 h-5 text-blushGold dark:text-obsidian group-hover:scale-110 transition-transform" />
+                <span>Book Appointment Online</span>
+                <span className="text-xs opacity-75 font-mono">↗</span>
+              </a>
+
+              {/* Secondary Interactive Quote & Consult Modal */}
               <button
                 onClick={() => onOpenWizard()}
-                className="px-8 py-4 rounded-xl bg-red-700 hover:bg-red-800 text-white font-black text-lg transition-all flex items-center justify-center space-x-2.5 shadow-lg active:scale-95"
-                aria-label="Get a Free Quote Online"
+                className="w-full sm:w-auto px-7 py-4 rounded-2xl bg-linen-200/80 dark:bg-obsidian-card border-2 border-linen-300 dark:border-obsidian-border text-obsidian dark:text-white font-medium text-base hover:bg-linen-300/80 dark:hover:bg-obsidian-cardHover transition-all duration-200 flex items-center justify-center gap-2"
               >
-                <span>Get a Free Quote</span>
-                <ChevronRight className="w-5 h-5" />
+                <span>Interactive Price Estimator</span>
+                <ChevronRight className="w-4 h-4 text-blushGold" />
               </button>
-
-              <a
-                href={`tel:${BUSINESS_INFO.phone.replace(/[^0-9]/g, '')}`}
-                className="px-7 py-4 rounded-xl bg-white/15 backdrop-blur-sm hover:bg-white/25 text-white font-bold text-lg border border-white/25 transition flex items-center justify-center space-x-2.5 active:scale-95"
-                aria-label={`Call Toby's Auto Mechanic at ${BUSINESS_INFO.phone}`}
-              >
-                <Phone className="w-5 h-5" />
-                <span>{BUSINESS_INFO.phone}</span>
-              </a>
             </div>
 
-            {/* Trust proof (Bigger text) */}
-            <div className="flex items-center space-x-3 text-sm sm:text-base text-white/90 pt-2 font-medium">
-              <div className="flex text-amber-400 text-lg" aria-label="5 out of 5 stars rating">
-                {'★★★★★'.split('').map((_, i) => (
-                  <span key={i} className="leading-none">★</span>
-                ))}
+            {/* Social Proof Strip */}
+            <div className="pt-4 flex flex-wrap items-center justify-center lg:justify-start gap-6 text-sm text-obsidian/70 dark:text-linen-300">
+              <div className="flex items-center gap-1.5">
+                <div className="flex text-amber-500">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-4 h-4" filled={true} />
+                  ))}
+                </div>
+                <span className="font-semibold text-obsidian dark:text-white">5.0 Star Rating</span>
               </div>
-              <span>5.0 Rating on Yelp & Google (48+ Verified Reviews)</span>
+              <span className="text-linen-400 dark:text-obsidian-border">•</span>
+              <div className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span>Private 1-on-1 Suite</span>
+              </div>
+              <span className="text-linen-400 dark:text-obsidian-border">•</span>
+              <span>4+ Years Experience</span>
             </div>
-          </div>
-        </div>
-      </div>
 
-      {/* Floating Quick Action Bar (Midnight Pure Black) */}
-      <div className="max-w-4xl mx-auto px-4 -mt-10 relative z-10 pb-8 sm:pb-10">
-        <div className="bg-white dark:bg-black rounded-2xl shadow-xl border border-gray-100 dark:border-neutral-800 p-4 sm:p-5 flex flex-col sm:flex-row items-center gap-3.5 transition-colors">
-          <div 
-            className="flex items-center space-x-3 flex-1 w-full cursor-pointer"
-            onClick={() => onOpenWizard()}
-          >
-            <div className="flex items-center space-x-3 px-4 py-3 bg-gray-50 dark:bg-[#0c0c0c] rounded-xl border border-gray-200 dark:border-neutral-800 flex-1 hover:border-red-400 dark:hover:border-red-600 transition">
-              <Wrench className="w-5 h-5 text-red-700 dark:text-red-600 shrink-0" />
-              <span className="text-sm sm:text-base text-gray-700 dark:text-neutral-200 font-medium truncate">
-                Engine, Brakes, Diesel, Custom issue...
-              </span>
-            </div>
-            <div className="hidden sm:flex items-center space-x-3 px-4 py-3 bg-gray-50 dark:bg-[#0c0c0c] rounded-xl border border-gray-200 dark:border-neutral-800 flex-1">
-              <Shield className="w-5 h-5 text-gray-400 dark:text-neutral-500 shrink-0" />
-              <span className="text-sm sm:text-base text-gray-600 dark:text-neutral-400 font-medium">
-                Casa Grande, AZ 85122
-              </span>
+          </div>
+
+          {/* Right Column: Visual Composition with Jenna's Portrait & Seals */}
+          <div className="lg:col-span-5 relative">
+            <div className="relative mx-auto max-w-md lg:max-w-none">
+              
+              {/* Main Architectural Card */}
+              <div className="card-thick overflow-hidden bg-linen-50 dark:bg-obsidian-card p-4 relative group">
+                <div className="relative rounded-2xl overflow-hidden aspect-[4/5] bg-linen-200 dark:bg-obsidian-subtle">
+                  <img
+                    src={imageManifest.hero.poster}
+                    alt={imageManifest.hero.alt}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    fetchPriority="high"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-obsidian/80 via-obsidian/20 to-transparent" />
+                  
+                  {/* Floating Jenna Soule Badge */}
+                  <div className="absolute bottom-4 left-4 right-4 p-4 rounded-xl backdrop-blur-md bg-linen-50/90 dark:bg-obsidian/90 border border-white/20 dark:border-white/10 flex items-center gap-3">
+                    <img
+                      src={imageManifest.artist.portrait}
+                      alt={imageManifest.artist.name}
+                      className="w-12 h-12 rounded-full object-cover border-2 border-blushGold"
+                    />
+                    <div>
+                      <p className="font-serif font-bold text-obsidian dark:text-linen-50 text-sm">{BUSINESS_INFO.artist.name}</p>
+                      <p className="text-xs text-blushGold-dark dark:text-blushGold font-medium">Licensed Nail Tech &amp; Jewelry Artist</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Floating Heart Seal Badge */}
+                <div className="absolute -top-6 -right-6 w-24 h-24 rounded-full shadow-2xl p-1 bg-linen-50 dark:bg-obsidian-card border-2 border-blushGold/50 hidden sm:block animate-bounce duration-1000">
+                  <img
+                    src={imageManifest.logo.heartSeal}
+                    alt="Nailz by Jenna Seal"
+                    className="w-full h-full rounded-full object-cover"
+                  />
+                </div>
+              </div>
+
+              {/* Quick Info Box underneath */}
+              <div className="mt-4 p-4 rounded-2xl bg-linen-200/90 dark:bg-obsidian-card border border-linen-300 dark:border-obsidian-border flex items-center justify-between text-xs sm:text-sm">
+                <div>
+                  <p className="text-obsidian/60 dark:text-linen-400 font-mono">// STUDIO LOCATION</p>
+                  <p className="font-semibold text-obsidian dark:text-white">{BUSINESS_INFO.address.street}</p>
+                </div>
+                <a
+                  href={"tel:" + BUSINESS_INFO.phoneRaw}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-obsidian dark:bg-linen-100 text-white dark:text-obsidian font-medium hover:opacity-90 transition-opacity"
+                >
+                  <Phone className="w-3.5 h-3.5" />
+                  <span>{BUSINESS_INFO.phone}</span>
+                </a>
+              </div>
+
             </div>
           </div>
-          <button
-            onClick={() => onOpenWizard()}
-            className="w-full sm:w-auto px-7 py-3 rounded-xl bg-red-700 hover:bg-red-800 text-white font-bold text-base transition-colors shrink-0 shadow-md active:scale-95"
-            aria-label="Start quote request from quick action bar"
-          >
-            Get Quote
-          </button>
+
         </div>
       </div>
     </section>

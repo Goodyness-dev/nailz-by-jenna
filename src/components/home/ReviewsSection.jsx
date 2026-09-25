@@ -1,76 +1,65 @@
 import React from 'react';
-import { Star } from 'lucide-react';
 import { BUSINESS_INFO } from '../../data/businessData';
+import { Star, Quote, CheckCircle2 } from '../common/Icons';
 
-export default function ReviewsSection({ onOpenWizard }) {
+export default function ReviewsSection() {
   return (
-    <section id="reviews" className="py-20 sm:py-24 bg-stone-50 dark:bg-black transition-colors" aria-labelledby="reviews-heading">
+    <section id="reviews" className="py-20 md:py-28 bg-linen-50 dark:bg-obsidian relative bg-polka-subtle">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header (Bigger typography) */}
-        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-          <h2 id="reviews-heading" className="text-3xl sm:text-5xl font-black font-heading text-gray-900 dark:text-white tracking-tight">
-            What Our Customers Say
+        
+        {/* Header */}
+        <div className="text-center max-w-2xl mx-auto space-y-4 mb-14">
+          <p className="text-xs sm:text-sm font-mono tracking-widest text-blushGold-dark dark:text-blushGold uppercase">
+            // 05 CLIENT TESTIMONIALS
+          </p>
+          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-obsidian dark:text-linen-50">
+            Loved by Roseville\'s <span className="italic font-normal text-blushGold">Nail Lovers.</span>
           </h2>
-          <div className="flex items-center justify-center space-x-2.5 mt-3 sm:mt-4">
-            <div className="flex text-amber-500" aria-label="5 out of 5 stars">
+          <div className="flex items-center justify-center gap-2 pt-1">
+            <div className="flex text-amber-500">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-5 h-5 sm:w-6 sm:h-6 fill-amber-500" aria-hidden="true" />
+                <Star key={i} className="w-5 h-5" filled={true} />
               ))}
             </div>
-            <span className="text-gray-700 dark:text-neutral-200 text-base sm:text-lg font-bold">
-              5.0 Star Rating on Yelp & Google (48+ Reviews)
-            </span>
+            <span className="font-bold text-obsidian dark:text-white text-base">5.0 Star Verified Rating</span>
           </div>
         </div>
 
-        {/* Review Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {BUSINESS_INFO.reviews.map((rev, idx) => (
-            <article
-              key={idx}
-              className="bg-white dark:bg-[#0c0c0c] border border-gray-200 dark:border-neutral-800 rounded-3xl p-6 sm:p-8 hover:shadow-xl transition-all flex flex-col justify-between"
+        {/* Reviews Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          {BUSINESS_INFO.reviews.map((review, i) => (
+            <div
+              key={i}
+              className="card-thick card-thick-hover bg-linen-100/90 dark:bg-obsidian-card p-8 flex flex-col justify-between relative"
             >
+              <Quote className="w-10 h-10 text-blushGold/20 absolute top-6 right-6 pointer-events-none" />
+              
               <div>
-                {/* Stars + Source */}
-                <div className="flex justify-between items-center mb-4">
-                  <div className="flex text-amber-500" aria-label={`${rev.rating} out of 5 stars`}>
-                    {[...Array(rev.rating)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 sm:w-5 sm:h-5 fill-amber-500" aria-hidden="true" />
-                    ))}
-                  </div>
-                  <span className="text-xs sm:text-sm font-semibold text-gray-600 dark:text-neutral-300 bg-gray-100 dark:bg-[#161616] border border-gray-200 dark:border-neutral-800 px-2.5 py-1 rounded-lg">
-                    {rev.source}
-                  </span>
+                <div className="flex items-center gap-1 text-amber-500 mb-4">
+                  {[...Array(review.rating)].map((_, r) => (
+                    <Star key={r} className="w-4 h-4" filled={true} />
+                  ))}
                 </div>
 
-                {/* Review Text */}
-                <p className="text-gray-700 dark:text-neutral-300 text-base sm:text-lg leading-relaxed mb-6 italic font-normal">
-                  "{rev.comment}"
+                <p className="text-base text-obsidian/85 dark:text-linen-200 font-serif italic leading-relaxed mb-6">
+                  "{review.comment}"
                 </p>
               </div>
 
-              {/* Author */}
-              <div className="pt-4 border-t border-gray-100 dark:border-neutral-800 flex justify-between items-center">
+              <div className="flex items-center justify-between pt-4 border-t border-linen-300/80 dark:border-obsidian-border text-xs">
                 <div>
-                  <h3 className="font-bold text-gray-900 dark:text-white text-base sm:text-lg">{rev.author}</h3>
-                  <span className="text-gray-500 dark:text-neutral-400 text-xs sm:text-sm">{rev.location}</span>
+                  <p className="font-bold text-sm text-obsidian dark:text-linen-50">{review.author}</p>
+                  <p className="text-obsidian/50 dark:text-linen-400 font-mono">{review.location}</p>
                 </div>
-                <span className="text-gray-400 dark:text-neutral-500 text-xs sm:text-sm">{rev.date}</span>
+                <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-medium">
+                  <CheckCircle2 className="w-3.5 h-3.5" />
+                  <span>{review.source}</span>
+                </div>
               </div>
-            </article>
+            </div>
           ))}
         </div>
 
-        {/* CTA */}
-        <div className="mt-12 sm:mt-16 text-center">
-          <button
-            onClick={() => onOpenWizard()}
-            className="px-8 py-4 rounded-xl bg-red-700 hover:bg-red-800 text-white font-bold text-base sm:text-lg transition-all shadow-md active:scale-95"
-            aria-label="Get a quote today"
-          >
-            Ready? Get a Free Quote Now
-          </button>
-        </div>
       </div>
     </section>
   );

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Italianno&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -9,40 +11,64 @@
   
   html.dark {
     color-scheme: dark;
-    background-color: #000000 !important;
+    background-color: #0e0e0e !important;
   }
 
   body {
-    @apply bg-white text-gray-900 antialiased overflow-x-hidden transition-colors duration-200;
+    @apply bg-linen-100 text-obsidian antialiased overflow-x-hidden transition-colors duration-200;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 
   html.dark body {
-    background-color: #000000 !important;
-    color: #ffffff !important;
+    background-color: #0e0e0e !important;
+    color: #f7f4ef !important;
   }
 
-  /* Clean scrollbar */
+  /* Clean luxury scrollbar */
   ::-webkit-scrollbar {
-    width: 7px;
+    width: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #f5f5f5;
+    background: #f1eadf;
   }
   html.dark ::-webkit-scrollbar-track {
-    background: #000000;
+    background: #141414;
   }
   ::-webkit-scrollbar-thumb {
-    background: #c4c4c4;
+    background: #c59b6d;
     border-radius: 4px;
   }
-  html.dark ::-webkit-scrollbar-thumb {
-    background: #262626;
-  }
   ::-webkit-scrollbar-thumb:hover {
-    background: #999;
+    background: #b58855;
   }
-  html.dark ::-webkit-scrollbar-thumb:hover {
-    background: #404040;
-  }
+}
+
+/* Polka dot branding from Jenna Soule's Acuity design */
+.bg-polka-subtle {
+  background-image: radial-gradient(rgba(14, 14, 14, 0.08) 1.5px, transparent 1.5px);
+  background-size: 26px 26px;
+}
+.dark .bg-polka-subtle {
+  background-image: radial-gradient(rgba(247, 244, 239, 0.06) 1.5px, transparent 1.5px);
+  background-size: 26px 26px;
+}
+
+/* Thick & Alive tactile cards */
+.card-thick {
+  border-width: 2px;
+  border-color: rgba(226, 218, 203, 0.9);
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 30px -10px rgba(14, 14, 14, 0.05), 0 20px 25px -5px rgba(197, 155, 109, 0.06);
+}
+.dark .card-thick {
+  border-color: rgba(42, 42, 42, 0.9);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
+}
+
+.card-thick-hover {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.card-thick-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 35px -10px rgba(197, 155, 109, 0.22);
 }

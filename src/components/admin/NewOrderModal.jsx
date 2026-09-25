@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Plus, Wrench, Loader2, Check } from 'lucide-react';
+import { X, Plus, Wrench, Loader2, Check } from '../common/Icons';
 import { quotesApi } from '../../services/api';
 import { VEHICLE_MAKES } from '../../data/makesData';
 

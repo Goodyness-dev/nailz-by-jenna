@@ -3,6 +3,7 @@ import Navbar from './components/layout/Navbar';
 import Hero from './components/home/Hero';
 import ServicesSection from './components/home/ServicesSection';
 import AboutSection from './components/home/AboutSection';
+import ClientCamGallery from './components/home/ClientCamGallery';
 import AmenitiesSection from './components/home/AmenitiesSection';
 import LocationHoursSection from './components/home/LocationHoursSection';
 import ReviewsSection from './components/home/ReviewsSection';
@@ -11,7 +12,7 @@ import AllServicesPage from './components/services/AllServicesPage';
 import QuoteWizardModal from './components/wizard/QuoteWizardModal';
 import AdminLayout from './components/admin/AdminLayout';
 import AdminLogin from './components/admin/AdminLogin';
-import { Phone, Calendar } from 'lucide-react';
+import { Phone, Calendar } from './components/common/Icons';
 import { BUSINESS_INFO } from './data/businessData';
 import { authApi, getStoredToken } from './services/api';
 
@@ -25,12 +26,12 @@ export default function App() {
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
   const [adminUser, setAdminUser] = useState(null);
 
-  // Midnight Dark Mode state
+  // Dark Mode state
   const [darkMode, setDarkMode] = useState(() => {
     try {
-      const saved = localStorage.getItem('tobys_theme');
+      const saved = localStorage.getItem('nailz_theme');
       if (saved) return saved === 'dark';
-      return false; // Default to clean light mode unless toggled
+      return false; // Default to clean luxury linen light mode
     } catch {
       return false;
     }
@@ -53,19 +54,19 @@ export default function App() {
     }
   }, []);
 
-  // Apply dark class to <html> and <body> immediately
+  // Apply dark class to <html> and <body>
   useEffect(() => {
     const root = document.documentElement;
     if (darkMode || currentPage === 'admin') {
       root.classList.add('dark');
       document.body.classList.add('dark');
       if (currentPage !== 'admin') {
-        localStorage.setItem('tobys_theme', 'dark');
+        localStorage.setItem('nailz_theme', 'dark');
       }
     } else {
       root.classList.remove('dark');
       document.body.classList.remove('dark');
-      localStorage.setItem('tobys_theme', 'light');
+      localStorage.setItem('nailz_theme', 'light');
     }
   }, [darkMode, currentPage]);
 
@@ -149,46 +150,57 @@ export default function App() {
     );
   }
 
-  return (
-    <div className={`min-h-screen ${darkMode ? 'bg-black text-white' : 'bg-white text-gray-900'} flex flex-col font-sans transition-colors duration-200`}>
-      {/* Global Navbar with Dark Mode Toggle */}
-      <Navbar 
-        onOpenWizard={() => handleOpenWizard()} 
-        currentPage={currentPage}
-        onNavigate={handleNavigate}
-        darkMode={darkMode}
-        onToggleDarkMode={toggleDarkMode}
-      />
-
-      {/* Main View: Landing Page OR All Services Page */}
-      <main className="flex-grow">
-        {currentPage === 'services' ? (
-          <AllServicesPage 
+  // If on Full Services Page
+  if (currentPage === 'services') {
+    return (
+      <div className="min-h-screen bg-linen-50 dark:bg-obsidian text-obsidian dark:text-linen-50 transition-colors">
+        <Navbar
+          darkMode={darkMode}
+          onToggleDarkMode={toggleDarkMode}
+          onOpenWizard={handleOpenWizard}
+        />
+        <main className="pt-24">
+          <AllServicesPage
             onOpenWizard={handleOpenWizard}
             onBackToHome={() => handleNavigate('home')}
           />
-        ) : (
-          <>
-            <Hero onOpenWizard={handleOpenWizard} />
-            <ServicesSection 
-              onOpenWizard={handleOpenWizard}
-              onViewAllServices={() => handleNavigate('services')}
-            />
-            <AboutSection onOpenWizard={() => handleOpenWizard()} />
-            <AmenitiesSection onOpenWizard={() => handleOpenWizard()} />
-            <ReviewsSection onOpenWizard={() => handleOpenWizard()} />
-            <LocationHoursSection onOpenWizard={() => handleOpenWizard()} />
-          </>
-        )}
-      </main>
+        </main>
+        <Footer />
+        <QuoteWizardModal
+          isOpen={wizardOpen}
+          onClose={handleCloseWizard}
+          initialCategory={wizardCategory}
+          initialService={wizardService}
+        />
+      </div>
+    );
+  }
 
-      {/* Global Footer */}
-      <Footer 
-        onOpenWizard={() => handleOpenWizard()} 
-        onNavigate={handleNavigate}
+  // Main Homepage
+  return (
+    <div className="min-h-screen bg-linen-50 dark:bg-obsidian text-obsidian dark:text-linen-50 transition-colors selection:bg-blushGold selection:text-obsidian">
+      {/* Sticky Top Navbar */}
+      <Navbar
+        darkMode={darkMode}
+        onToggleDarkMode={toggleDarkMode}
+        onOpenWizard={handleOpenWizard}
       />
 
-      {/* Quote Request Wizard Modal */}
+      {/* Main Content */}
+      <main id="main">
+        <Hero onOpenWizard={handleOpenWizard} />
+        <ServicesSection onOpenWizard={handleOpenWizard} />
+        <AboutSection />
+        <ClientCamGallery />
+        <AmenitiesSection />
+        <ReviewsSection />
+        <LocationHoursSection />
+      </main>
+
+      {/* Footer */}
+      <Footer />
+
+      {/* Interactive Beauty Quote & Consult Modal */}
       <QuoteWizardModal
         isOpen={wizardOpen}
         onClose={handleCloseWizard}
@@ -196,22 +208,24 @@ export default function App() {
         initialService={wizardService}
       />
 
-      {/* Sticky Mobile Bottom Bar (Midnight Black supported) */}
-      <div className={`fixed bottom-0 left-0 right-0 z-30 sm:hidden ${darkMode ? 'bg-black/95 border-neutral-800' : 'bg-white/95 border-gray-200'} backdrop-blur-md border-t p-2.5 flex items-center gap-2.5 shadow-lg`}>
+      {/* Mobile Sticky Floating CTA Bar */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-linen-50/95 dark:bg-obsidian/95 backdrop-blur-md border-t border-linen-300 dark:border-obsidian-border p-3 flex items-center gap-3">
         <a
-          href={`tel:${BUSINESS_INFO.phone.replace(/[^0-9]/g, '')}`}
-          className={`flex-1 py-3 px-3.5 rounded-xl ${darkMode ? 'bg-[#111111] text-white border-neutral-800' : 'bg-gray-100 text-gray-900 border-gray-200'} font-bold text-sm flex items-center justify-center space-x-2 border active:scale-95 transition`}
+          href={"tel:" + BUSINESS_INFO.phoneRaw}
+          className="flex-1 py-3 px-3 rounded-xl border border-linen-300 dark:border-obsidian-border text-obsidian dark:text-linen-100 text-xs font-semibold text-center flex items-center justify-center gap-1.5"
         >
-          <Phone className="w-4 h-4 text-red-600" />
-          <span>Call Shop</span>
+          <Phone className="w-4 h-4 text-blushGold" />
+          <span>Call Studio</span>
         </a>
-        <button
-          onClick={() => handleOpenWizard()}
-          className="flex-1 py-3 px-3.5 rounded-xl bg-red-700 hover:bg-red-800 text-white font-bold text-sm flex items-center justify-center space-x-2 shadow-sm active:scale-95 transition"
+        <a
+          href={BUSINESS_INFO.acuityBookingUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex-[1.5] py-3 px-3 rounded-xl bg-obsidian dark:bg-blushGold text-white dark:text-obsidian text-xs font-bold text-center shadow-lg flex items-center justify-center gap-1.5"
         >
-          <Calendar className="w-4 h-4" />
-          <span>Free Quote</span>
-        </button>
+          <Calendar className="w-4 h-4 text-blushGold dark:text-obsidian" />
+          <span>Book on Acuity ↗</span>
+        </a>
       </div>
     </div>
   );

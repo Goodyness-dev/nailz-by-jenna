@@ -1,213 +1,155 @@
-import React, { useState, useEffect } from 'react';
-import { Phone, Menu, X, ChevronRight, Sun, Moon } from 'lucide-react';
+import React, { useState } from 'react';
+import { Phone, Calendar, Menu, X, Sun, Moon, Sparkles } from '../common/Icons';
 import { BUSINESS_INFO } from '../../data/businessData';
+import { imageManifest } from '../../data/imageManifest';
 
-export default function Navbar({ onOpenWizard, currentPage = 'home', onNavigate, darkMode, onToggleDarkMode }) {
-  const [isScrolled, setIsScrolled] = useState(false);
+export default function Navbar({ darkMode, onToggleDarkMode, onOpenWizard }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const handleNavClick = (e, target) => {
-    e.preventDefault();
-    setMobileMenuOpen(false);
-
-    if (target === 'services') {
-      if (onNavigate) onNavigate('services');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
-
-    if (currentPage !== 'home' && onNavigate) {
-      onNavigate('home');
-      setTimeout(() => {
-        const el = document.querySelector(target);
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
-      }, 100);
-      return;
-    }
-
-    const el = document.querySelector(target);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  };
-
   const navLinks = [
-    { name: 'Services', target: 'services' },
-    { name: 'About', target: '#about' },
-    { name: 'Amenities', target: '#amenities' },
-    { name: 'Location', target: '#location' },
-    { name: 'Reviews', target: '#reviews' },
+    { label: 'Treatments', href: '#services' },
+    { label: 'Meet Jenna', href: '#about' },
+    { label: 'Client Cam', href: '#gallery' },
+    { label: 'Policies', href: '#policies' },
+    { label: 'Reviews', href: '#reviews' },
+    { label: 'Hours & Map', href: '#location' },
   ];
 
   return (
-    <header 
-      className={`sticky top-0 z-40 transition-all duration-300 ${
-        isScrolled 
-          ? 'bg-white/95 dark:bg-black/95 backdrop-blur-md shadow-sm border-b border-gray-200 dark:border-neutral-900' 
-          : 'bg-white dark:bg-black border-b border-gray-100 dark:border-neutral-900'
-      }`}
-      role="banner"
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 sm:h-20 flex items-center justify-between">
-        {/* Logo & Brand */}
-        <button 
-          onClick={(e) => handleNavClick(e, '#')} 
-          className="flex items-center space-x-3 group text-left"
-          aria-label="Toby's Auto Mechanic Home"
-        >
-          <img 
-            src="/logo.png" 
-            alt="Toby's Auto Mechanic Logo - Casa Grande AZ" 
-            width="160"
-            height="40"
-            decoding="async"
-            className="h-10 sm:h-12 w-auto object-contain"
-          />
-          <div className="flex flex-col">
-            <span className="font-heading text-lg sm:text-2xl font-black tracking-tight text-gray-900 dark:text-white leading-tight">
-              Toby's <span className="text-red-700 dark:text-red-600">Auto</span>
-            </span>
-            <span className="text-xs sm:text-sm tracking-wider uppercase text-gray-500 dark:text-neutral-400 hidden xs:block font-medium">
-              Diesel & Auto Care
-            </span>
-          </div>
-        </button>
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-linen-50/90 dark:bg-obsidian/90 backdrop-blur-md border-b border-linen-300/80 dark:border-obsidian-border transition-colors duration-200">
+      
+      {/* Top Banner Promo */}
+      <div className="bg-obsidian dark:bg-blushGold text-white dark:text-obsidian text-[11px] sm:text-xs py-1.5 px-4 text-center font-medium tracking-wide flex items-center justify-center gap-2">
+        <Sparkles className="w-3.5 h-3.5 text-blushGold dark:text-obsidian" />
+        <span>Welcome Babe! Take $15 Off Your First Full Set with Jenna Soule in Roseville</span>
+        <a href={BUSINESS_INFO.acuityBookingUrl} target="_blank" rel="noopener noreferrer" className="underline font-semibold ml-1">
+          Claim Slot ↗
+        </a>
+      </div>
 
-        {/* Desktop Nav Links */}
-        <nav className="hidden lg:flex items-center space-x-7" aria-label="Main Navigation">
-          {navLinks.map((link) => {
-            const isActive = link.target === 'services' && currentPage === 'services';
-            return (
-              <button
-                key={link.name}
-                onClick={(e) => handleNavClick(e, link.target)}
-                className={`text-base font-semibold transition-colors ${
-                  isActive 
-                    ? 'text-red-700 dark:text-red-500 font-bold' 
-                    : 'text-gray-700 dark:text-neutral-300 hover:text-gray-900 dark:hover:text-white'
-                }`}
-              >
-                {link.name}
-              </button>
-            );
-          })}
-        </nav>
-
-        {/* Desktop CTAs & Dark Mode Toggle */}
-        <div className="hidden md:flex items-center space-x-4">
-          {/* Midnight Dark Mode Toggle Pill */}
-          <button
-            type="button"
-            onClick={onToggleDarkMode}
-            className="flex items-center space-x-2 px-3.5 py-2 rounded-full border border-gray-200 dark:border-neutral-800 bg-gray-100 dark:bg-[#111111] text-gray-800 dark:text-neutral-200 hover:border-red-400 dark:hover:border-neutral-700 transition cursor-pointer shadow-sm active:scale-95"
-            aria-label={darkMode ? "Switch to light mode" : "Switch to midnight black mode"}
-            title={darkMode ? "Switch to light mode" : "Switch to midnight black mode"}
-          >
-            {darkMode ? (
-              <>
-                <Sun className="w-4 h-4 text-amber-400 animate-spin-slow" />
-                <span className="text-xs font-bold text-neutral-200">Light</span>
-              </>
-            ) : (
-              <>
-                <Moon className="w-4 h-4 text-neutral-700" />
-                <span className="text-xs font-bold text-neutral-800">Dark</span>
-              </>
-            )}
-          </button>
-
-          <a
-            href={`tel:${BUSINESS_INFO.phone.replace(/[^0-9]/g, '')}`}
-            className="flex items-center space-x-2 text-base text-gray-800 dark:text-neutral-200 hover:text-red-700 dark:hover:text-red-500 font-bold transition"
-            aria-label={`Call Toby's Auto Mechanic: ${BUSINESS_INFO.phone}`}
-          >
-            <Phone className="w-4 h-4 text-red-700 dark:text-red-600" aria-hidden="true" />
-            <span>{BUSINESS_INFO.phone}</span>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-20">
+          
+          {/* Brand Logo & Name */}
+          <a href="#" className="flex items-center gap-3 group">
+            <div className="w-11 h-11 rounded-full overflow-hidden border-2 border-blushGold shadow-md bg-linen-100 dark:bg-obsidian-card">
+              <img
+                src={imageManifest.logo.heartSeal}
+                alt="Nailz by Jenna"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+              />
+            </div>
+            <div>
+              <span className="font-serif text-xl sm:text-2xl font-bold tracking-tight text-obsidian dark:text-linen-50 block leading-tight">
+                Nailz by Jenna
+              </span>
+              <span className="text-[10px] font-mono uppercase tracking-widest text-blushGold-dark dark:text-blushGold block">
+                ROSEVILLE • 1-ON-1 SUITE
+              </span>
+            </div>
           </a>
 
-          <button
-            onClick={() => onOpenWizard()}
-            className="flex items-center space-x-1.5 px-5 py-2.5 rounded-xl bg-red-700 hover:bg-red-800 text-white font-bold text-base transition-colors shadow-sm active:scale-95"
-            aria-label="Launch Free Quote Wizard"
-          >
-            <span>Free Quote</span>
-            <ChevronRight className="w-5 h-5" />
-          </button>
-        </div>
+          {/* Desktop Navigation Links */}
+          <div className="hidden lg:flex items-center gap-7">
+            {navLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                className="text-sm font-medium text-obsidian/80 dark:text-linen-200 hover:text-blushGold-dark dark:hover:text-blushGold transition-colors tracking-wide"
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
 
-        {/* Mobile Controls */}
-        <div className="flex lg:hidden items-center space-x-2.5">
-          {/* Mobile Dark Mode Toggle */}
-          <button
-            type="button"
-            onClick={onToggleDarkMode}
-            className="p-2.5 rounded-xl border border-gray-200 dark:border-neutral-800 bg-gray-100 dark:bg-[#111111] text-gray-800 dark:text-neutral-200 transition cursor-pointer active:scale-95"
-            aria-label={darkMode ? "Switch to light mode" : "Switch to midnight black mode"}
-          >
-            {darkMode ? (
-              <Sun className="w-5 h-5 text-amber-400" />
-            ) : (
-              <Moon className="w-5 h-5 text-neutral-800" />
-            )}
-          </button>
+          {/* Right Action Icons & CTAs */}
+          <div className="flex items-center gap-3">
+            
+            {/* Dark Mode Toggle */}
+            <button
+              onClick={onToggleDarkMode}
+              className="p-2.5 rounded-full bg-linen-200 dark:bg-obsidian-card text-obsidian dark:text-linen-100 hover:bg-linen-300 dark:hover:bg-obsidian-border transition-colors"
+              aria-label="Toggle Theme"
+            >
+              {darkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-obsidian" />}
+            </button>
 
-          <button
-            onClick={() => onOpenWizard()}
-            className="px-3.5 py-2 rounded-xl bg-red-700 text-white text-sm font-bold active:scale-95 shadow-sm"
-            aria-label="Get Free Quote"
-          >
-            Quote
-          </button>
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 rounded-xl text-gray-700 dark:text-neutral-200 hover:bg-gray-100 dark:hover:bg-neutral-900"
-            aria-label="Toggle navigation menu"
-            aria-expanded={mobileMenuOpen}
-          >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+            {/* Quick Phone Call (Desktop & Tablet) */}
+            <a
+              href={"tel:" + BUSINESS_INFO.phoneRaw}
+              className="hidden sm:inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-linen-300 dark:border-obsidian-border text-obsidian dark:text-linen-100 text-xs font-semibold hover:bg-linen-200 dark:hover:bg-obsidian-card transition-colors"
+            >
+              <Phone className="w-3.5 h-3.5 text-blushGold" />
+              <span>{BUSINESS_INFO.phone}</span>
+            </a>
+
+            {/* Direct Acuity Booking Button */}
+            <a
+              href={BUSINESS_INFO.acuityBookingUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-obsidian dark:bg-blushGold text-white dark:text-obsidian text-xs font-semibold shadow-md hover:opacity-90 transition-opacity"
+            >
+              <Calendar className="w-4 h-4 text-blushGold dark:text-obsidian" />
+              <span>Book Online ↗</span>
+            </a>
+
+            {/* Mobile Hamburger Menu Toggle */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2.5 rounded-xl lg:hidden text-obsidian dark:text-linen-100 hover:bg-linen-200 dark:hover:bg-obsidian-card"
+              aria-label="Menu"
+            >
+              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+
+          </div>
+
         </div>
       </div>
 
-      {/* Mobile Nav Drawer */}
+      {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <nav className="lg:hidden bg-white dark:bg-black border-b border-gray-200 dark:border-neutral-900 px-5 pt-3 pb-6 space-y-2 shadow-2xl" aria-label="Mobile Navigation">
+        <div className="lg:hidden bg-linen-50 dark:bg-obsidian border-b border-linen-300 dark:border-obsidian-border px-4 pt-3 pb-6 space-y-3">
           {navLinks.map((link) => (
-            <button
-              key={link.name}
-              onClick={(e) => handleNavClick(e, link.target)}
-              className="w-full text-left px-3.5 py-3 rounded-xl text-base font-semibold text-gray-800 dark:text-neutral-200 hover:bg-gray-50 dark:hover:bg-neutral-900 transition"
-            >
-              {link.name}
-            </button>
-          ))}
-          <div className="pt-4 border-t border-gray-100 dark:border-neutral-900 space-y-3">
             <a
-              href={`tel:${BUSINESS_INFO.phone.replace(/[^0-9]/g, '')}`}
-              className="w-full flex items-center justify-center space-x-2 py-3 rounded-xl border border-gray-200 dark:border-neutral-800 text-gray-900 dark:text-white font-bold text-base bg-gray-50 dark:bg-[#111111]"
-              aria-label={`Call ${BUSINESS_INFO.phone}`}
+              key={link.label}
+              href={link.href}
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-3 py-2 rounded-lg text-base font-medium text-obsidian dark:text-linen-100 hover:bg-linen-200 dark:hover:bg-obsidian-card"
             >
-              <Phone className="w-5 h-5 text-red-700 dark:text-red-600" />
-              <span>{BUSINESS_INFO.phone}</span>
+              {link.label}
+            </a>
+          ))}
+          <div className="pt-4 border-t border-linen-300 dark:border-obsidian-border space-y-2">
+            <a
+              href={BUSINESS_INFO.acuityBookingUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full py-3 px-4 rounded-xl bg-obsidian dark:bg-blushGold text-white dark:text-obsidian font-semibold text-center flex items-center justify-center gap-2"
+            >
+              <Calendar className="w-4 h-4 text-blushGold dark:text-obsidian" />
+              <span>Book Appointment on Acuity ↗</span>
             </a>
             <button
-              onClick={() => { setMobileMenuOpen(false); onOpenWizard(); }}
-              className="w-full py-3.5 rounded-xl bg-red-700 text-white font-bold text-base shadow-sm"
-              aria-label="Get Free Quote Now"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onOpenWizard();
+              }}
+              className="w-full py-3 px-4 rounded-xl bg-linen-200 dark:bg-obsidian-card text-obsidian dark:text-linen-100 font-medium text-center"
             >
-              Get a Free Quote
+              Interactive Price Estimator
             </button>
+            <a
+              href={"tel:" + BUSINESS_INFO.phoneRaw}
+              className="w-full py-2.5 px-4 rounded-xl border border-linen-300 dark:border-obsidian-border text-obsidian dark:text-linen-100 text-center block text-sm font-semibold"
+            >
+              Call {BUSINESS_INFO.phone}
+            </a>
           </div>
-        </nav>
+        </div>
       )}
-    </header>
+
+    </nav>
   );
 }

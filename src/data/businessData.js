@@ -1,106 +1,131 @@
 export const BUSINESS_INFO = {
   name: "Nailz by Jenna",
   legalName: "Nailz by Jenna LLC",
-  tagline: "Dependable Diesel & Automotive Care — Casa Grande's Trusted Shop Since 2009",
+  tagline: "Luxury Gel-X Extensions, Structured Gel Manicures & Permanent Jewelry",
+  shortDescription: "Roseville's premier luxury nail artist and permanent jewelry specialist, Jenna Soule. Specializing in flawless Gel-X architecture, Luminary builder gel overlays, bespoke 3D nail art, and custom 14k gold welded jewelry in an exclusive 1-on-1 private salon suite.",
   address: {
-    street: "15276 W Jimmie Kerr Blvd, Ste 1",
-    city: "Casa Grande",
-    state: "AZ",
-    zip: "85122",
-    formatted: "15276 W Jimmie Kerr Blvd, Ste 1, Casa Grande, AZ 85122",
+    street: "973 Pleasant Grove Blvd, Ste 130",
+    suite: "Suite 130 (Inside Salon Suites)",
+    city: "Roseville",
+    state: "CA",
+    zip: "95678",
+    formatted: "973 Pleasant Grove Blvd, Ste 130, Roseville, CA 95678",
+    serviceArea: "Roseville, Rocklin, Lincoln, Granite Bay, and Greater Sacramento, CA"
   },
-  phone: "4654005202",
-  secondaryPhone: "(520) 836-6021",
-  website: "tobysllc.com",
-  email: "info@tobysllc.com",
-  googleMapsLink: "https://www.google.com/maps/dir/?api=1&destination=Toby%27s+Auto+Mechanic,+15276+W+Jimmie+Kerr+Blvd,+Ste+1,+Casa+Grande,+AZ+85122",
-  googleMapsEmbedUrl: "https://maps.google.com/maps?q=Toby%27s%20Auto%20Mechanic%2C%2015276%20W%20Jimmie%20Kerr%20Blvd%2C%20Ste%201%2C%20Casa%20Grande%2C%20AZ%2085122&t=&z=15&ie=UTF8&iwloc=&output=embed",
+  phone: "(916) 850-9262",
+  phoneRaw: "9168509262",
+  instagram: "@nailz.byjenna",
+  instagramUrl: "https://www.instagram.com/nailz.byjenna/",
+  acuityBookingUrl: "https://nailzbyjenna.as.me/schedule/8aeb308b",
+  website: "https://nailz-by-jenna.vercel.app",
+  email: "nailzbyjenna@gmail.com",
+  googleMapsLink: "https://www.google.com/maps/dir/?api=1&destination=973+Pleasant+Grove+Blvd,+Ste+130,+Roseville,+CA+95678",
+  googleMapsEmbedUrl: "https://maps.google.com/maps?q=973%20Pleasant%20Grove%20Blvd%2C%20Ste%20130%2C%20Roseville%2C%20CA%2095678&t=&z=15&ie=UTF8&iwloc=&output=embed",
   
   hours: [
-    { day: "Monday", open: "8:00 AM", close: "5:00 PM", note: "" },
-    { day: "Tuesday", open: "8:00 AM", close: "5:00 PM", note: "" },
-    { day: "Wednesday", open: "8:00 AM", close: "5:00 PM", note: "" },
-    { day: "Thursday", open: "8:00 AM", close: "5:00 PM", note: "" },
-    { day: "Friday", open: "8:00 AM", close: "5:00 PM", note: "" },
-    { day: "Saturday", open: "8:00 AM", close: "5:00 PM", note: "By Appointment Only" },
+    { day: "Monday", open: "Closed", close: "Closed", note: "Rest & Product Prep" },
+    { day: "Tuesday", open: "9:00 AM", close: "7:00 PM", note: "" },
+    { day: "Wednesday", open: "9:00 AM", close: "7:00 PM", note: "" },
+    { day: "Thursday", open: "9:00 AM", close: "7:00 PM", note: "" },
+    { day: "Friday", open: "9:00 AM", close: "7:00 PM", note: "" },
+    { day: "Saturday", open: "9:00 AM", close: "7:00 PM", note: "By Appointment Only" },
     { day: "Sunday", open: "Closed", close: "Closed", note: "" },
   ],
 
-  history: [
+  artist: {
+    name: "Jenna Soule",
+    title: "Licensed Nail Technician & Permanent Jewelry Specialist",
+    experience: "4+ Years Behind the Desk",
+    credentials: "State Board Licensed Nail Technician • Certified Gel-X Specialist • Certified Permanent Jewelry Welder • Advanced 3D Sculpting",
+    bio: "I specialize in luxury Gel-X extensions and structured/hard gel manicures, creating everything from clean, effortless sets to bold, detailed nail art. Every appointment is all about good vibes, attention to detail, and leaving with nails you're obsessed with. With 4+ years behind the nail desk, I've created a space where you can relax, feel comfortable, and enjoy a personalized one-on-one experience.",
+    quote: "Every appointment is all about good vibes, meticulous precision, and leaving with nails and custom permanent jewelry you're truly obsessed with."
+  },
+
+  specialOffer: {
+    badge: "$15 OFF NEW CLIENT SPECIAL",
+    title: "Welcome Babe! Take $15 Off Your First Full Set",
+    description: "Experience the difference of a tailored 1-on-1 private suite appointment. Applicable on any Gel-X Full Set or Structured Gel Manicure."
+  },
+
+  depositPolicy: {
+    amount: "$20",
+    terms: "A $20 non-refundable deposit is required to secure your appointment. The remaining balance is due at the time of service. Please come prepared with your preferred payment method."
+  },
+
+  policies: [
     {
-      year: "2009",
-      title: "Humble Beginnings",
-      description: "Toby started out as a mobile mechanic for hire, traveling across Arizona heat and backroads to help stranded drivers and local farmers with reliable on-site repair."
+      title: "PAYMENT",
+      tag: "Deposit Required",
+      detail: "A $20 non-refundable deposit is required to secure your appointment slot. The remaining balance is due at the conclusion of your service via Cash, Card, or Apple Pay."
     },
     {
-      year: "2015",
-      title: "Diesel Mastery",
-      description: "Expanded into specialized heavy-duty diesel diagnostics, complete engine swaps, and performance transmission rebuilds."
+      title: "GUEST POLICY",
+      tag: "Solo Appointments Only",
+      detail: "Please arrive solo to your appointment. Due to limited space in the private suite and to ensure a relaxing experience for everyone, extra guests and children are not permitted."
     },
     {
-      year: "2022",
-      title: "Permanent Casa Grande Facility",
-      description: "Opened our fully-equipped, modern auto repair facility with dedicated hydraulic lifts, comfortable waiting room, and U-Haul rental partnership on Jimmie Kerr Blvd."
+      title: "LATE POLICY",
+      tag: "5-Min Grace Period",
+      detail: "Please arrive on time and ready for your appointment. A $5 late fee will be added after 5 minutes. Excessive lateness may result in your appointment being shortened or canceled."
     },
     {
-      year: "Present",
-      title: "Pinal County's Trusted Choice",
-      description: "Serving hundreds of satisfied local drivers, fleet operators, and military families with transparent, honest, high-caliber automotive work."
+      title: "CANCELLATION",
+      tag: "24-Hour Notice",
+      detail: "Please provide at least 24 hours notice if you need to cancel or reschedule. Same-day cancellations and no-shows will forfeit your deposit, and a new deposit will be required to rebook."
     }
   ],
 
-  owner: {
-    name: "Toby S.",
-    role: "Founder & Master Technician",
-    quote: "Auto repair has always been a passion of mine and serving Arizona car owners with vehicle repair has been my honor and treat. The Arizona heat and terrain provided the perfect environment to create a state filled with vehicles that need repairs and I've been able to perfect my skills."
-  },
+  preAppointmentSteps: [
+    {
+      number: "01",
+      title: "ARRIVE BARE-NAILED",
+      description: "Please come with clean, polish-free nails so we can start fresh unless a professional soak-off removal has been booked."
+    },
+    {
+      number: "02",
+      title: "KNOW YOUR STYLE",
+      description: "Bring inspiration photos, color swatches, or saved reels so we can collaboratively design your dream set."
+    },
+    {
+      number: "03",
+      title: "HANDS FRESH & CLEAN",
+      description: "Wash your hands thoroughly prior to your appointment for pristine cuticle prep and maximum product adhesion."
+    },
+    {
+      number: "04",
+      title: "ARRIVE ON TIME",
+      description: "Punctuality ensures we have the full dedicated time needed to perfect your nail architecture and art without rushing."
+    }
+  ],
 
   reviews: [
     {
-      author: "Marcus R.",
-      location: "Casa Grande, AZ",
-      source: "Yelp",
+      author: "Maddy A.",
+      location: "Roseville, CA",
+      source: "Verified Client Testimonial",
       rating: 5,
-      date: "2 months ago",
-      comment: "Toby is hands down the most honest mechanic in Pinal County. Diagnosed a complex transmission shudder that two other dealerships quoted me thousands for, and fixed it same day at a fraction of the cost. A true lifesaver!"
+      comment: "I've always only gone to chop shops and haven't ever been to a private nail tech until Jenna. My natural nails are in the best shape of their life! SANITATION is noticed immediately and she isn't afraid of educating and taking care of nail health. Love her so much!"
     },
     {
-      author: "Elena G.",
-      location: "Eloy, AZ",
-      source: "Google Review",
+      author: "Jenna B.",
+      location: "Rocklin, CA",
+      source: "Verified Client Testimonial",
       rating: 5,
-      date: "3 weeks ago",
-      comment: "My A/C died during a 112° Arizona scorcher with my kids in the car. Toby got us right in, recharged the system, replaced a bad compressor clutch, and had us ice-cold before noon. Respectful, transparent, and fair."
+      comment: "Jenna is the absolute best at what she does. She always makes sure everything looks perfect and is super clean! I always have so much fun at our appointments and her Gel-X retention is incredible."
     },
     {
-      author: "Sgt. David W.",
-      location: "Casa Grande, AZ",
-      source: "Yelp",
+      author: "Lisa G.",
+      location: "Roseville, CA",
+      source: "Verified Client Testimonial",
       rating: 5,
-      date: "1 month ago",
-      comment: "Veteran friendly and top-shelf diesel care. Toby overhauled the injectors on my Cummins Ram 2500 and the truck runs like it just rolled off the showroom floor. You won't find better craftmanship."
+      comment: "Her attention to detail with French tips and chrome is unmatched in the Sacramento area. The private salon suite is so peaceful, zero chemical smell, and my set lasted a whole month without a single lift!"
     },
     {
-      author: "Jessica B.",
-      location: "Maricopa, AZ",
-      source: "Google Review",
+      author: "Alina K.",
+      location: "Lincoln, CA",
+      source: "Verified Client Testimonial",
       rating: 5,
-      date: "4 months ago",
-      comment: "The waiting room is air conditioned and spotlessly clean. Toby explained every single line item on my brake service before doing the work. Highly recommend to any woman who wants zero BS or upselling."
+      comment: "I got a 14k gold permanent bracelet stack and a structured gel manicure during the same visit. Jenna welded the chains flawlessly and the nails are gorgeous. Truly obsessed!"
     }
   ]
-};
-
-export const isOpenNow = () => {
-  const now = new Date();
-  const day = now.getDay(); // 0 = Sun, 1 = Mon, ..., 6 = Sat
-  const hour = now.getHours();
-  
-  if (day === 0) return false; // Sunday closed
-  if (day === 6) {
-    // Saturday by appointment 8am - 5pm
-    return hour >= 8 && hour < 17;
-  }
-  // Monday - Friday 8am - 5pm
-  return hour >= 8 && hour < 17;
 };
